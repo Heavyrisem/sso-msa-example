@@ -25,25 +25,30 @@ const execute = (
   }
 };
 
-const buildAllProto = (sourcePath: string) => {
-  const protoFiles = findAllFilesWithExtend(sourcePath, ".proto");
-  protoFiles.forEach((protoPath) => {
-    const result = execute(
-      "npx",
-      [
-        "protoc",
-        "--plugin=./node_modules/.bin/protoc-gen-ts_proto",
-        "--ts_proto_opt=env=browser",
-        "--ts_out",
-        "./src",
-        "--proto_path",
-        "./src",
-        normalize(join("./src/", protoPath)),
-      ],
-      { cwd: join(__dirname, "..") }
-    );
-    if (result.error) console.log(result.stderr.toString());
+const buildAllProto = () => {
+  // const protoFiles = findAllFilesWithExtend(sourcePath, ".proto");
+  // protoFiles.forEach((protoPath) => {
+  //   const result = execute(
+  //     "npx",
+  //     [
+  //       "protoc",
+  //       "--plugin=./node_modules/.bin/protoc-gen-ts_proto",
+  //       "--ts_proto_opt=env=browser",
+  //       "--ts_out",
+  //       "./src",
+  //       "--proto_path",
+  //       "./src",
+  //       normalize(join("./src/", protoPath)),
+  //     ],
+  //     { cwd: join(__dirname, "..") }
+  //   );
+  //   if (result.error) console.log(result.stderr.toString());
+  // });
+
+  const result = execute("npx", ["tsproto", "--path", "./src"], {
+    cwd: join(__dirname, ".."),
   });
+  if (result.error) console.log(result.stderr.toString());
 
   console.log("Proto Build Finish");
 };
@@ -57,10 +62,10 @@ const generateProtoTypes = (
   const typeFiles = findAllFilesWithExtend(sourcePath, ".ts", [
     "index.ts",
     "proto.type.ts",
-  ]).map((filePath) => filePath.replace(".ts", ""));
+  ]).map((filePath) => filePath.replace(".ts", "").split("\\").join("/"));
 
   const typeString = `
-export type ${typeName} = '${protoFiles.join("'|'")}';
+export type ${typeName} = '${protoFiles.join("'|'").split("\\").join("/")}';
 ${typeFiles.map((filePath) => `export * from './${filePath}';`).join("\n")}
   `;
   fs.writeFileSync(savePath, typeString);
@@ -70,5 +75,5 @@ ${typeFiles.map((filePath) => `export * from './${filePath}';`).join("\n")}
 
 const sourcePath = join(__dirname, "../src/");
 const savePath = join(__dirname, "../src/proto.type.ts");
-buildAllProto(sourcePath);
+buildAllProto();
 generateProtoTypes(savePath, sourcePath, "protos");
