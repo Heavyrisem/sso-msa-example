@@ -16,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
         DB_USER: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        MSA_PORT: Joi.string().required(),
       }),
     }),
   ],

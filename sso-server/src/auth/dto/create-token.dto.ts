@@ -1,7 +1,7 @@
-import { Timestamp, TokenPayload } from '@heavyrisem/sso-msa-example-proto';
+import { auth, google } from '@heavyrisem/sso-msa-example-proto';
 import { IsNotEmptyObject, IsNumber, IsString } from 'class-validator';
 
-export class CreateTokenDto implements TokenPayload {
+export class CreateTokenDto implements auth.TokenPayload {
   @IsNumber()
   id: number;
 
@@ -9,5 +9,5 @@ export class CreateTokenDto implements TokenPayload {
   name: string;
 
   @IsNotEmptyObject({ nullable: false })
-  expire: Timestamp;
+  expire: google.protobuf.Timestamp;
 }

@@ -1,7 +1,7 @@
-import { Token } from '@heavyrisem/sso-msa-example-proto';
+import { auth } from '@heavyrisem/sso-msa-example-proto';
 import { IsString } from 'class-validator';
 
-export class VerifyTokenDto implements Token {
+export class VerifyTokenDto implements auth.Token {
   @IsString()
   token: string;
 }

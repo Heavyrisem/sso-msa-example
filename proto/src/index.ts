@@ -6,3 +6,5 @@ export const getProtoPath = (protoPath: protos): string => {
 };
 
 export * from "./proto.type";
+export * from "@grpc/grpc-js";
+export * from "rxjs";
