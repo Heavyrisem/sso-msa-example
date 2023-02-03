@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package auth;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service AuthService {
+    rpc VerifyToken(Token) returns (google.protobuf.BoolValue) {}
+    rpc GenerateToken(TokenPayload) returns (Token) {}
+}
+
+message Token {
+    string token = 1;
+}
+
+message TokenPayload {
+    uint32 id = 1;
+    string name = 2;
+    google.protobuf.Timestamp expire = 3;
+}

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~modules/*": [
+                "src/modules/*"
+            ],
+            "~utils/*": [
+                "src/utils/*"
+            ],
+            "~src/*": [
+                "src/*"
+            ]
+        }
+    }
+}

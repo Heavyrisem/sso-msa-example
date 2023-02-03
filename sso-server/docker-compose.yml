@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  # server:
+  #   build: .
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env.production
+  db:
+    container_name: sso-msa-db
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - db_volume:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/config/init.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sso
+      time_zone: UTC
+volumes:
+  db_volume:
