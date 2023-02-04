@@ -1,22 +1,21 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { take } from 'rxjs';
 
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
+import { Controller, Get } from '@nestjs/common';
 
-import { AUTH_PROVIDER, SERVICE_NAME } from './auth.constants';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
-export class AuthController implements OnModuleInit {
-  private authService: auth.AuthService;
-
-  constructor(@Inject(AUTH_PROVIDER) private client: ClientGrpc) {}
-
-  onModuleInit() {
-    this.authService = this.client.getService<auth.AuthService>(SERVICE_NAME);
-  }
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
   @Get('')
-  test() {
-    return this.authService.generateToken({});
+  async test() {
+    const payload = {
+      id: 1,
+      name: 'name',
+      expire: { seconds: 1234 },
+    };
+    const res = await this.authService.generateToken(payload);
+    return res.token;
   }
 }

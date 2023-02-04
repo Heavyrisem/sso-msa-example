@@ -1,4 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
+
+import { HttpExceptionFilter } from '~modules/common/exception.filter';
 
 import { AuthModule } from './auth/auth.module';
 import { ConfigurationModule } from './modules/config/config.module';

@@ -1,26 +1,24 @@
-import { auth, google, Metadata, Observable, of } from '@heavyrisem/sso-msa-example-proto';
+import { auth, google, Observable, of } from '@heavyrisem/sso-msa-example-proto';
 
-import { Controller } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
+
+import { RpcController } from '~modules/common/rpc-controller.decorator';
 
 import { CreateTokenDto } from './dto/create-token.dto';
 import { VerifyTokenDto } from './dto/verify-token.dto';
 
-@Controller()
-export class AuthController implements auth.AuthService {
+@RpcController()
+export class AuthController {
   @GrpcMethod('AuthService')
   verifyToken(data: auth.Token): Observable<google.protobuf.BoolValue> {
-    throw new Error('Method not implemented.');
+    throw new NotFoundException('Method not implemented.');
   }
-  //   verifyToken(input: Token, options?: RpcOptions): UnaryCall<Token, BoolValue> {
-  //     throw new Error('Method not implemented.');
-  //   }
-  //   generateToken(input: TokenPayload, options?: RpcOptions): UnaryCall<TokenPayload, Token> {
-  //     throw new Error('Method not implemented.');
-  //   }
+
   @GrpcMethod('AuthService')
-  generateToken(data: auth.TokenPayload): Observable<auth.Token> {
-    return of<auth.Token>({ token: 'asdf' });
+  generateToken(data: CreateTokenDto): Observable<auth.Token> {
+    console.log(data);
+    return of<auth.Token>({ token: 'sample.token.jwt' });
   }
   // generateToken(createTokenDto: CreateTokenDto, options?: RpcOptions): UnaryCall<Token, BoolValue> {
   //   console.log('createTokenDto', createTokenDto);

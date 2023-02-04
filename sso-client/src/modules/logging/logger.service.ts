@@ -25,10 +25,6 @@ export class LoggerService implements LS {
         }),
       ],
     });
-
-    console.log = (message: any, params?: any) => {
-      this.logger.debug(message, params);
-    };
   }
 
   log(message: string) {
