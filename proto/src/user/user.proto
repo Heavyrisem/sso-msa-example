@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/wrappers.proto";
+import public "../auth/auth.proto";
+
+service UserService {
+    rpc FindUserById(google.protobuf.Int32Value) returns (User) {}
+}
+
+message User {
+    int32 id = 1;
+    string name = 2;
+    string email = 3;
+    int32 providerId = 4;
+    auth.PROVIDER provider = 5;
+}

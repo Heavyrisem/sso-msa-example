@@ -3,9 +3,9 @@ import { NextFunction, Request, Response } from 'express';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
 @Injectable()
-export class LoggerMiddleware implements NestMiddleware {
+export class HttpLoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    const loggerService = new Logger('RequestLogger');
+    const loggerService = new Logger('HttpRequestLogger');
     const tempUrl = req.method + ' ' + req.baseUrl.split('?')[0];
     // const _headers = JSON.stringify(req.headers ? req.headers : {});
     // const _query = JSON.stringify(req.query ? req.query : {});

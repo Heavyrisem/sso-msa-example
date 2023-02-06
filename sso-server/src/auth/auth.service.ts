@@ -2,13 +2,20 @@ import { profileEnd } from 'console';
 
 import { auth, google } from '@heavyrisem/sso-msa-example-proto';
 
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { GoogleStrategy } from './strategy/google.strategy';
 
 @Injectable()
 export class AuthService {
+  logger = new Logger('AuthService');
+
   constructor(
     private readonly googleStrategy: GoogleStrategy,
     private readonly jwtService: JwtService,
@@ -37,6 +44,7 @@ export class AuthService {
       this.jwtService.verify(token.value);
       return { value: true };
     } catch (err) {
+      this.logger.error(`${err}, ${token.value}`);
       return { value: false };
     }
   }

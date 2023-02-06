@@ -1,9 +1,15 @@
 import { auth } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
-import { BadRequestException, Controller, Get, Param, Query, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  Res,
+  UnauthorizedException,
+} from '@nestjs/common';
 
-import { getResultFromObservable } from '~modules/utils/observable.utils';
 import { createQueryParameter } from '~modules/utils/url.util';
 
 import { AuthService } from './auth.service';
@@ -14,7 +20,10 @@ export class AuthController {
 
   @Get('/test')
   async test(@Query('token') token: string) {
-    return this.authService.verifyToken(token);
+    const res = await this.authService.verifyToken(token);
+    console.log(res);
+    if (!res.value) throw new UnauthorizedException('Expired Token');
+    return this.authService.getPayload(token);
     // const res = await this.authService.authService.generateToken(payload);
     // return res.token;
   }

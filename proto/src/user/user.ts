@@ -5,6 +5,53 @@
 import { Observable } from 'rxjs';
 import { Metadata } from '@grpc/grpc-js';
 
+export namespace user {
+    export interface UserService {
+        findUserById(
+            data: google.protobuf.Int32Value,
+            metadata?: Metadata,
+            ...rest: any[]
+        ): Observable<User>;
+    }
+    export interface User {
+        id?: number;
+        name?: string;
+        email?: string;
+        providerId?: number;
+        provider?: auth.PROVIDER;
+    }
+}
+export namespace google {
+    export namespace protobuf {
+        export interface DoubleValue {
+            value?: number;
+        }
+        export interface FloatValue {
+            value?: number;
+        }
+        export interface Int64Value {
+            value?: number;
+        }
+        export interface UInt64Value {
+            value?: number;
+        }
+        export interface Int32Value {
+            value?: number;
+        }
+        export interface UInt32Value {
+            value?: number;
+        }
+        export interface BoolValue {
+            value?: boolean;
+        }
+        export interface StringValue {
+            value?: string;
+        }
+        export interface BytesValue {
+            value?: Uint8Array;
+        }
+    }
+}
 export namespace auth {
     export interface AuthService {
         verifyToken(
@@ -52,37 +99,6 @@ export namespace auth {
         redirect?: string;
         callback?: string;
         provider?: auth.PROVIDER;
-    }
-}
-export namespace google {
-    export namespace protobuf {
-        export interface DoubleValue {
-            value?: number;
-        }
-        export interface FloatValue {
-            value?: number;
-        }
-        export interface Int64Value {
-            value?: number;
-        }
-        export interface UInt64Value {
-            value?: number;
-        }
-        export interface Int32Value {
-            value?: number;
-        }
-        export interface UInt32Value {
-            value?: number;
-        }
-        export interface BoolValue {
-            value?: boolean;
-        }
-        export interface StringValue {
-            value?: string;
-        }
-        export interface BytesValue {
-            value?: Uint8Array;
-        }
     }
 }
 

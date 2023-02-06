@@ -1,6 +1,5 @@
-import { auth, from, google, Metadata, Observable, of } from '@heavyrisem/sso-msa-example-proto';
+import { auth, from, google, Observable, of } from '@heavyrisem/sso-msa-example-proto';
 
-import { NotFoundException } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 
 import { RpcController } from '~modules/common/rpc-controller.decorator';
@@ -27,18 +26,4 @@ export class AuthRpcController implements auth.AuthService {
   getOAuthProfile({ code, callback, provider }: OAuthRequestDto): Observable<auth.OAuthProfile> {
     return from(this.authService.getProfile(code, callback, provider));
   }
-
-  // generateToken(createTokenDto: CreateTokenDto, options?: RpcOptions): UnaryCall<Token, BoolValue> {
-  //   console.log('createTokenDto', createTokenDto);
-  //   return new UnaryCall<Token, BoolValue>();
-  //   // return Token.create({ token: 'sample.token.jwt' });
-  //   // return { token: 'sample.token.jwt' };
-  // }
-
-  // @GrpcMethod('AuthService')
-  // verifyToken(verifyTokenDto: VerifyTokenDto) {
-  //   console.log('verifyTokenDto', verifyTokenDto);
-
-  //   return {} as TokenPayload;
-  // }
 }

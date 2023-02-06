@@ -59,13 +59,4 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') impleme
       });
     });
   }
-
-  // authenticate(req: Request, options?: any): void {
-  //   const { state } = req.query;
-  //   options.state = state;
-  //   const parsedState = JSON.parse(state as string);
-  //   options.callbackURL = parsedState.callback;
-  //   console.log('parsedState', parsedState);
-  //   super.authenticate(req, options);
-  // }
 }

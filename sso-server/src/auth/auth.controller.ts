@@ -6,19 +6,10 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 
 import { createQueryParameter } from '~modules/utils/url.util';
-import { UserService } from '~src/user/user.service';
-
-import { GoogleUser } from './auth.interface';
-import { AuthService } from './auth.service';
-import { AuthUser } from './decorator/auth-user.decorator';
-import { GoogleStrategy } from './strategy/google.strategy';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   @Get('/google')
   googleAuthRedirect(
@@ -76,10 +67,4 @@ export class AuthController {
 
   //     //   return { accessToken, refreshToken };
   //   }
-
-  @Get('/test')
-  @UseGuards(AuthGuard('google'))
-  authTest() {
-    // return user;
-  }
 }
