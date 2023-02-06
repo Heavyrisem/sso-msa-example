@@ -1,4 +1,4 @@
-import { auth, Observable } from '@heavyrisem/sso-msa-example-proto';
+import { auth } from '@heavyrisem/sso-msa-example-proto';
 
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -17,7 +17,11 @@ export class AuthService implements OnModuleInit {
     this.authService = this.client.getService<auth.AuthService>(SERVICE_NAME);
   }
 
-  generateToken(payload: auth.TokenPayload) {
+  generateToken(payload: Required<auth.TokenPayload>) {
     return getResultFromObservable(this.authService.generateToken(payload));
+  }
+
+  getOAuthProfile(oauthRequest: Required<auth.OAuthRequest>) {
+    return getResultFromObservable(this.authService.getOAuthProfile(oauthRequest));
   }
 }

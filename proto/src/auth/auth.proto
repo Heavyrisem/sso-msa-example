@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 service AuthService {
     rpc VerifyToken(Token) returns (google.protobuf.BoolValue) {}
     rpc GenerateToken(TokenPayload) returns (Token) {}
+    rpc GetOAuthProfile(OAuthRequest) returns (OAuthProfile) {}
 }
 
 message Token {
@@ -18,4 +19,23 @@ message TokenPayload {
     uint32 id = 1;
     string name = 2;
     google.protobuf.Timestamp expire = 3;
+}
+
+
+enum PROVIDER {
+    GOOGLE = 0;
+}
+
+message OAuthRequest {
+    string code = 1;
+    string redirect = 2;
+    string callback = 3;
+    PROVIDER provider = 4;
+}
+
+message OAuthProfile {
+  PROVIDER provider = 1;
+  string providerId = 2;
+  string email = 3;
+  string name = 4;
 }

@@ -1,3 +1,4 @@
+import { auth } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
 import { BadRequestException, Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
@@ -8,12 +9,16 @@ import { createQueryParameter } from '~modules/utils/url.util';
 import { UserService } from '~src/user/user.service';
 
 import { GoogleUser } from './auth.interface';
+import { AuthService } from './auth.service';
 import { AuthUser } from './decorator/auth-user.decorator';
 import { GoogleStrategy } from './strategy/google.strategy';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Get('/google')
   googleAuthRedirect(
@@ -40,7 +45,7 @@ export class AuthController {
     );
   }
 
-  @Get('/token')
+  @Get('/google/token')
   //   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(
     @Query('code') code?: string,
@@ -48,9 +53,9 @@ export class AuthController {
     // @AuthUser() user: GoogleUser,
   ) {
     if (!code) throw new BadRequestException('code is empty');
-    const { redirect } = JSON.parse(state ?? '{}');
+    const { redirect, callback } = JSON.parse(state ?? '{}');
+    await this.authService.getProfile(code, callback, auth.PROVIDER.GOOGLE);
 
-    this.googleStrategy._oauth2.getOAuthAccessToken(code);
     return redirect;
     // if (!redirect) throw new BadRequestException();
 

@@ -1,6 +1,6 @@
+import { auth } from '@heavyrisem/sso-msa-example-proto';
 import { Column, Entity } from 'typeorm';
 
-import { PROVIDER } from '~src/auth/auth.interface';
 import { CoreEntity } from '~src/modules/database/core.entity';
 
 @Entity()
@@ -12,7 +12,7 @@ export class User extends CoreEntity {
   name: string;
 
   @Column()
-  provider: PROVIDER;
+  provider: auth.PROVIDER;
 
   @Column()
   providerId: string;

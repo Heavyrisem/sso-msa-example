@@ -1,10 +1,5 @@
-export enum PROVIDER {
-  GOOGLE = 'GOOGLE',
-}
+import { auth } from '@heavyrisem/sso-msa-example-proto';
 
-export interface GoogleUser {
-  provider: PROVIDER.GOOGLE;
-  providerId: string;
-  email: string;
-  name: string;
+export interface GoogleUser extends auth.OAuthProfile {
+  provider: auth.PROVIDER.GOOGLE;
 }

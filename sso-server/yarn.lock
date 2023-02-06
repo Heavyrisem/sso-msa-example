@@ -414,15 +414,26 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.0.3":
-  version "1.0.3"
-  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.0.3/eb4850561667a61713d91ed82d7129c25be25820#eb4850561667a61713d91ed82d7129c25be25820"
-  integrity sha512-BAhxmX+njqq1uOQ0VBSj04dmYl98sQToBc2qSNk1L4u4RiExNdYIndv7dgP0GLIZKIGgSLvPsMU1BVEY/OPP6w==
+"@heavyrisem/nestjs-proto-gen-ts@^1.0.21":
+  version "1.0.21"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/nestjs-proto-gen-ts/1.0.21/3130f0c31d991116c8efeca7287c7b1147acb1ad#3130f0c31d991116c8efeca7287c7b1147acb1ad"
+  integrity sha512-KkQC/RDdxwKGOV0LvClpPb/fSXpa7r7KkgiCREblYGISB1BA/JV791XaGxDErgqJF2PmVNxVKoZbute6jss+bw==
+  dependencies:
+    chalk "^4.0.0"
+    fs-extra "^9.0.1"
+    handlebars "^4.7.6"
+    protobufjs "^7.1.2"
+    yargs "^15.3.1"
+
+"@heavyrisem/sso-msa-example-proto@^1.0.4":
+  version "1.0.4"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.0.4/f516a3d735f222e0526b02f009720baf1c860d88#f516a3d735f222e0526b02f009720baf1c860d88"
+  integrity sha512-ZtdR3BPrvtqXgWE4Pw1Skp/raoC+1ix3/oLToYV/Whyd2n1XIxKDUopyqhBzN4YyNIkHEvnyCpCwdJFOScA3Hw==
   dependencies:
     "@grpc/grpc-js" "^1.8.7"
+    "@heavyrisem/nestjs-proto-gen-ts" "^1.0.21"
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"
-    nestjs-proto-gen-ts "^1.0.21"
     rxjs "^7.8.0"
 
 "@humanwhocodes/config-array@^0.10.4":
@@ -4531,17 +4542,6 @@ nest-winston@^1.7.0:
   integrity sha512-FJ94dJ++8BEjQfK5TuqiY5g7pP48RLRss41Bm6bCCfzYgywymEI6m+HPHW9K/q2i7wO5TU6Sva51/Rvmmhxddw==
   dependencies:
     fast-safe-stringify "^2.1.1"
-
-nestjs-proto-gen-ts@^1.0.21:
-  version "1.0.21"
-  resolved "https://registry.npmjs.org/nestjs-proto-gen-ts/-/nestjs-proto-gen-ts-1.0.21.tgz#d1be4f541446c7a9d82254a0fede9a5ad1cc263e"
-  integrity sha512-A7iHlISbkJy0uyzabO1OO63lHji4qaOB3x4trdtN5eEvHHEcGoghVbwsnmxrzwPjcf5TlpRVh39dhkMw8PGMFg==
-  dependencies:
-    chalk "^4.0.0"
-    fs-extra "^9.0.1"
-    handlebars "^4.7.6"
-    protobufjs "^7.1.2"
-    yargs "^15.3.1"
 
 node-emoji@1.11.0:
   version "1.11.0"

@@ -17,6 +17,11 @@ export namespace auth {
             metadata?: Metadata,
             ...rest: any[]
         ): Observable<Token>;
+        getOAuthProfile(
+            data: OAuthRequest,
+            metadata?: Metadata,
+            ...rest: any[]
+        ): Observable<OAuthProfile>;
     }
     export interface Token {
         token?: string;
@@ -25,6 +30,21 @@ export namespace auth {
         id?: number;
         name?: string;
         expire?: google.protobuf.Timestamp;
+    }
+    export enum PROVIDER {
+        GOOGLE = 0,
+    }
+    export interface OAuthRequest {
+        code?: string;
+        redirect?: string;
+        callback?: string;
+        provider?: auth.PROVIDER;
+    }
+    export interface OAuthProfile {
+        provider?: auth.PROVIDER;
+        providerId?: string;
+        email?: string;
+        name?: string;
     }
 }
 export namespace google {

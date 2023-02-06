@@ -28,6 +28,17 @@
     protobufjs "^7.0.0"
     yargs "^16.2.0"
 
+"@heavyrisem/nestjs-proto-gen-ts@^1.0.21":
+  version "1.0.21"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/nestjs-proto-gen-ts/1.0.21/3130f0c31d991116c8efeca7287c7b1147acb1ad#3130f0c31d991116c8efeca7287c7b1147acb1ad"
+  integrity sha512-KkQC/RDdxwKGOV0LvClpPb/fSXpa7r7KkgiCREblYGISB1BA/JV791XaGxDErgqJF2PmVNxVKoZbute6jss+bw==
+  dependencies:
+    chalk "^4.0.0"
+    fs-extra "^9.0.1"
+    handlebars "^4.7.6"
+    protobufjs "^7.1.2"
+    yargs "^15.3.1"
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"
@@ -433,17 +444,6 @@ neo-async@^2.6.0:
   version "2.6.2"
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
-
-nestjs-proto-gen-ts@^1.0.21:
-  version "1.0.21"
-  resolved "https://registry.npmjs.org/nestjs-proto-gen-ts/-/nestjs-proto-gen-ts-1.0.21.tgz#d1be4f541446c7a9d82254a0fede9a5ad1cc263e"
-  integrity sha512-A7iHlISbkJy0uyzabO1OO63lHji4qaOB3x4trdtN5eEvHHEcGoghVbwsnmxrzwPjcf5TlpRVh39dhkMw8PGMFg==
-  dependencies:
-    chalk "^4.0.0"
-    fs-extra "^9.0.1"
-    handlebars "^4.7.6"
-    protobufjs "^7.1.2"
-    yargs "^15.3.1"
 
 noms@0.0.0:
   version "0.0.0"
