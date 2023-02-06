@@ -8,12 +8,12 @@ import { Metadata } from '@grpc/grpc-js';
 export namespace auth {
     export interface AuthService {
         verifyToken(
-            data: Token,
+            data: google.protobuf.StringValue,
             metadata?: Metadata,
             ...rest: any[]
         ): Observable<google.protobuf.BoolValue>;
         generateToken(
-            data: TokenPayload,
+            data: OAuthProfile,
             metadata?: Metadata,
             ...rest: any[]
         ): Observable<Token>;
@@ -24,12 +24,13 @@ export namespace auth {
         ): Observable<OAuthProfile>;
     }
     export interface Token {
-        token?: string;
+        accessToken?: string;
+        refreshToken?: string;
     }
     export interface TokenPayload {
         id?: number;
         name?: string;
-        expire?: google.protobuf.Timestamp;
+        provider?: auth.PROVIDER;
     }
     export enum PROVIDER {
         GOOGLE = 0,
@@ -42,9 +43,14 @@ export namespace auth {
     }
     export interface OAuthProfile {
         provider?: auth.PROVIDER;
-        providerId?: string;
+        providerId?: number;
         email?: string;
         name?: string;
+    }
+    export interface OAuthState {
+        redirect?: string;
+        callback?: string;
+        provider?: auth.PROVIDER;
     }
 }
 export namespace google {
@@ -75,10 +81,6 @@ export namespace google {
         }
         export interface BytesValue {
             value?: Uint8Array;
-        }
-        export interface Timestamp {
-            seconds?: number;
-            nanos?: number;
         }
     }
 }

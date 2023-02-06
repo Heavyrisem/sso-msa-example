@@ -3,5 +3,8 @@ import { IsString } from 'class-validator';
 
 export class VerifyTokenDto implements Required<auth.Token> {
   @IsString()
-  token: string;
+  accessToken: string;
+
+  @IsString()
+  refreshToken: string;
 }

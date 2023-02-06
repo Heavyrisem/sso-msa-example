@@ -1,13 +1,16 @@
-import { auth, google } from '@heavyrisem/sso-msa-example-proto';
-import { IsNotEmptyObject, IsNumber, IsString } from 'class-validator';
+import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { IsEnum, IsNumber, IsString } from 'class-validator';
 
-export class CreateTokenDto implements Required<auth.TokenPayload> {
-  @IsNumber()
-  id: number;
-
+export class OAuthProfileDto implements Required<auth.OAuthProfile> {
   @IsString()
   name: string;
 
-  @IsNotEmptyObject({ nullable: false })
-  expire: google.protobuf.Timestamp;
+  @IsNumber()
+  providerId: number;
+
+  @IsString()
+  email: string;
+
+  @IsEnum(auth.PROVIDER)
+  provider: auth.PROVIDER;
 }

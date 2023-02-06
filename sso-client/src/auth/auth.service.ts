@@ -17,8 +17,12 @@ export class AuthService implements OnModuleInit {
     this.authService = this.client.getService<auth.AuthService>(SERVICE_NAME);
   }
 
-  generateToken(payload: Required<auth.TokenPayload>) {
-    return getResultFromObservable(this.authService.generateToken(payload));
+  generateToken(profile: Required<auth.OAuthProfile>) {
+    return getResultFromObservable(this.authService.generateToken(profile));
+  }
+
+  verifyToken(token: string) {
+    return getResultFromObservable(this.authService.verifyToken({ value: token }));
   }
 
   getOAuthProfile(oauthRequest: Required<auth.OAuthRequest>) {

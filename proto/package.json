@@ -1,6 +1,6 @@
 {
   "name": "@heavyrisem/sso-msa-example-proto",
-  "version": "1.0.4",
+  "version": "1.0.10",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.7",
+    "@heavyrisem/nestjs-proto-gen-ts": "^1.0.21",
+    "@heavyrisem/sso-msa-example-proto": "^1.0.6",
     "copyfiles": "^2.4.1",
     "cross-spawn": "^7.0.3",
-    "@heavyrisem/nestjs-proto-gen-ts": "^1.0.21",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {

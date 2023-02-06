@@ -39,6 +39,17 @@
     protobufjs "^7.1.2"
     yargs "^15.3.1"
 
+"@heavyrisem/sso-msa-example-proto@^1.0.6":
+  version "1.0.6"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.0.6/8b23bc1251d195c9593a4461689cdae19c7c000a#8b23bc1251d195c9593a4461689cdae19c7c000a"
+  integrity sha512-yWlbOk68QSyItnmmEj36xQWWNIY+FQO3bzgLze0vflOwSGHcga2qkh0+PYelMmhcSMEHuNhZiQfaoyfKieRKLg==
+  dependencies:
+    "@grpc/grpc-js" "^1.8.7"
+    "@heavyrisem/nestjs-proto-gen-ts" "^1.0.21"
+    copyfiles "^2.4.1"
+    cross-spawn "^7.0.3"
+    rxjs "^7.8.0"
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"

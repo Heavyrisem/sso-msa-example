@@ -1,5 +1,5 @@
 export const createQueryParameter = (
-  params: Record<string, string | string[] | Record<string, string>>,
+  params: Record<string, string | string[] | Record<string, string | number> | number>,
 ) => {
   const result = Object.entries(params).map(([key, value]) => {
     if (typeof value === 'string') return `${key}=${encodeURIComponent(value)}`;

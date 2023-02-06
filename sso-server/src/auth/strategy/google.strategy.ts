@@ -26,7 +26,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') impleme
     const profile = await this.getUserProfile(accessToken);
     return {
       provider: auth.PROVIDER.GOOGLE,
-      providerId: profile.id,
+      providerId: +profile.id,
       name: profile.name.givenName,
       email: profile.emails[0].value,
     };

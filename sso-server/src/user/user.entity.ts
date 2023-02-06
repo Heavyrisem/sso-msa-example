@@ -12,8 +12,8 @@ export class User extends CoreEntity {
   name: string;
 
   @Column()
-  provider: auth.PROVIDER;
+  providerId: number;
 
   @Column()
-  providerId: string;
+  provider: auth.PROVIDER;
 }

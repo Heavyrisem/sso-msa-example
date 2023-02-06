@@ -3,22 +3,22 @@ syntax = "proto3";
 package auth;
 
 import "google/protobuf/wrappers.proto";
-import "google/protobuf/timestamp.proto";
 
 service AuthService {
-    rpc VerifyToken(Token) returns (google.protobuf.BoolValue) {}
-    rpc GenerateToken(TokenPayload) returns (Token) {}
+    rpc VerifyToken(google.protobuf.StringValue) returns (google.protobuf.BoolValue) {}
+    rpc GenerateToken(OAuthProfile) returns (Token) {}
     rpc GetOAuthProfile(OAuthRequest) returns (OAuthProfile) {}
 }
 
 message Token {
-    string token = 1;
+    string accessToken = 1;
+    string refreshToken = 2;
 }
 
 message TokenPayload {
     uint32 id = 1;
     string name = 2;
-    google.protobuf.Timestamp expire = 3;
+    PROVIDER provider = 3;
 }
 
 
@@ -35,7 +35,13 @@ message OAuthRequest {
 
 message OAuthProfile {
   PROVIDER provider = 1;
-  string providerId = 2;
+  uint32 providerId = 2;
   string email = 3;
   string name = 4;
+}
+
+message OAuthState {
+    string redirect = 1;
+    string callback = 2;
+    PROVIDER provider = 3;
 }

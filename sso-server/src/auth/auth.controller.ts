@@ -28,12 +28,17 @@ export class AuthController {
   ) {
     if (!callback || !redirect) throw new BadRequestException('some param is null');
 
+    const state: Required<auth.OAuthState> = {
+      redirect,
+      callback,
+      provider: auth.PROVIDER.GOOGLE,
+    };
     const params = createQueryParameter({
+      state,
       response_type: 'code',
       redirect_uri: callback,
       scope: ['email', 'profile'],
       client_id: this.configService.get('GOOGLE_OAUTH_CLIENT_ID'),
-      state: { redirect, callback },
     });
 
     return res.redirect(
@@ -45,32 +50,32 @@ export class AuthController {
     );
   }
 
-  @Get('/google/token')
-  //   @UseGuards(AuthGuard('google'))
-  async googleAuthCallback(
-    @Query('code') code?: string,
-    @Query('state') state?: string,
-    // @AuthUser() user: GoogleUser,
-  ) {
-    if (!code) throw new BadRequestException('code is empty');
-    const { redirect, callback } = JSON.parse(state ?? '{}');
-    await this.authService.getProfile(code, callback, auth.PROVIDER.GOOGLE);
+  //   @Get('/google/token')
+  //   //   @UseGuards(AuthGuard('google'))
+  //   async googleAuthCallback(
+  //     @Query('code') code?: string,
+  //     @Query('state') state?: string,
+  //     // @AuthUser() user: GoogleUser,
+  //   ) {
+  //     if (!code) throw new BadRequestException('code is empty');
+  //     const { redirect, callback } = JSON.parse(state ?? '{}');
+  //     await this.authService.getProfile(code, callback, auth.PROVIDER.GOOGLE);
 
-    return redirect;
-    // if (!redirect) throw new BadRequestException();
+  //     return redirect;
+  //     // if (!redirect) throw new BadRequestException();
 
-    //   const { id, email, name } = await this.userService.findUserByGoogleOrSave(user);
-    //   const accessToken = this.authService.createToken(
-    //     { id, email, name },
-    //     { expiresIn: this.configService.get('ACCESS_EXPIRES_IN') },
-    //   );
-    //   const refreshToken = this.authService.createToken(
-    //     { id, email, name },
-    //     { expiresIn: this.configService.get('REFRESH_EXPIRES_IN') },
-    //   );
+  //     //   const { id, email, name } = await this.userService.findUserByGoogleOrSave(user);
+  //     //   const accessToken = this.authService.createToken(
+  //     //     { id, email, name },
+  //     //     { expiresIn: this.configService.get('ACCESS_EXPIRES_IN') },
+  //     //   );
+  //     //   const refreshToken = this.authService.createToken(
+  //     //     { id, email, name },
+  //     //     { expiresIn: this.configService.get('REFRESH_EXPIRES_IN') },
+  //     //   );
 
-    //   return { accessToken, refreshToken };
-  }
+  //     //   return { accessToken, refreshToken };
+  //   }
 
   @Get('/test')
   @UseGuards(AuthGuard('google'))

@@ -1,7 +1,7 @@
 import { status } from '@grpc/grpc-js';
 import { Observable, throwError } from 'rxjs';
 
-import { Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -34,9 +34,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
   };
 
   catch(exception: HttpException): Observable<never> | void {
+    const logger = new Logger('RpcExceptionFilter');
     const httpStatus = exception.getStatus();
     const httpRes = exception.getResponse() as { details?: unknown };
-    console.log('HANDLING HTTP EXCEPTION', exception);
+
+    logger.error(exception);
+    console.log(exception);
 
     return throwError(() => ({
       code: HttpExceptionFilter.HttpStatusCode[httpStatus] ?? status.UNKNOWN,

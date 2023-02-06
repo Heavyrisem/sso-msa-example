@@ -1,12 +1,18 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { profileEnd } from 'console';
+
+import { auth, google } from '@heavyrisem/sso-msa-example-proto';
 
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 import { GoogleStrategy } from './strategy/google.strategy';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly googleStrategy: GoogleStrategy) {}
+  constructor(
+    private readonly googleStrategy: GoogleStrategy,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async getProfile(code: string, redirectUri, provider: auth.PROVIDER) {
     switch (provider) {
@@ -15,5 +21,31 @@ export class AuthService {
       default:
         throw new BadRequestException(`OAuth provider not founded: ${provider}`);
     }
+  }
+
+  generateToken(profile: Required<auth.OAuthProfile>): Required<auth.Token> {
+    const payload = this.getPayloadFromProfile(profile);
+
+    return {
+      accessToken: this.jwtService.sign(payload, { expiresIn: '60s' }),
+      refreshToken: this.jwtService.sign(payload, { expiresIn: '4h' }),
+    };
+  }
+
+  verifyToken(token: google.protobuf.StringValue): Required<google.protobuf.BoolValue> {
+    try {
+      this.jwtService.verify(token.value);
+      return { value: true };
+    } catch (err) {
+      return { value: false };
+    }
+  }
+
+  private getPayloadFromProfile(profile: Required<auth.OAuthProfile>): Required<auth.TokenPayload> {
+    return {
+      id: profile.providerId,
+      name: profile.name,
+      provider: profile.provider,
+    };
   }
 }

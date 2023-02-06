@@ -28,7 +28,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.8.4",
     "@grpc/proto-loader": "^0.7.4",
-    "@heavyrisem/sso-msa-example-proto": "^1.0.4",
+    "@heavyrisem/sso-msa-example-proto": "^1.0.10",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",

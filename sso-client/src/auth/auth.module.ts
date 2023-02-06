@@ -17,7 +17,7 @@ import { AuthService } from './auth.service';
         name: AUTH_PROVIDER,
         transport: Transport.GRPC,
         options: {
-          url: process.env.MSA_AUTH_URL,
+          url: process.env.MSA_AUTH_HOST,
           package: AUTH_PACKAGE,
           protoPath: getProtoPath('auth/auth.proto'),
         },

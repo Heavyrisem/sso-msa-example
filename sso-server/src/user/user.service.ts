@@ -14,7 +14,7 @@ export class UserService {
   async findUserById(id: number) {
     return this.userRepository.findOne({ where: { id } });
   }
-  async findUserByGoogleOrSave(user: GoogleUser) {
+  async findUserByIdOrSave(user: GoogleUser) {
     const existUser = await this.userRepository.findOne({ where: { providerId: user.providerId } });
     if (existUser) return existUser;
 

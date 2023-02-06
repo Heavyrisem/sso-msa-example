@@ -1,12 +1,14 @@
-import { Observable } from '@heavyrisem/sso-msa-example-proto';
+import { catchError, EMPTY, Observable } from '@heavyrisem/sso-msa-example-proto';
 
-export const getResultFromObservable = <T>(observable: Observable<T>): Promise<T> => {
+export const getResultFromObservable = <T>(observable: Observable<T>): Promise<Required<T>> => {
   return new Promise((resolve, reject) => {
-    try {
-      observable.subscribe(resolve);
-    } catch (err) {
-      console.log('ERR', err);
-      reject(err);
-    }
+    observable
+      .pipe(
+        catchError((err) => {
+          reject(err);
+          return EMPTY;
+        }),
+      )
+      .subscribe((data) => resolve(data as Required<typeof data>));
   });
 };
