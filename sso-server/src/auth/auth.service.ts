@@ -1,13 +1,6 @@
-import { profileEnd } from 'console';
+import { auth, wrappers } from '@heavyrisem/sso-msa-example-proto';
 
-import { auth, google } from '@heavyrisem/sso-msa-example-proto';
-
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { GoogleStrategy } from './strategy/google.strategy';
@@ -21,9 +14,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async getProfile(code: string, redirectUri, provider: auth.PROVIDER) {
+  async getProfile(code: string, redirectUri, provider: auth.Provider) {
     switch (provider) {
-      case auth.PROVIDER.GOOGLE:
+      case auth.Provider.GOOGLE:
         return this.googleStrategy.getProfile(code, redirectUri);
       default:
         throw new BadRequestException(`OAuth provider not founded: ${provider}`);
@@ -39,7 +32,7 @@ export class AuthService {
     };
   }
 
-  verifyToken(token: google.protobuf.StringValue): Required<google.protobuf.BoolValue> {
+  verifyToken(token: wrappers.StringValue): Required<wrappers.BoolValue> {
     try {
       this.jwtService.verify(token.value);
       return { value: true };
@@ -54,6 +47,7 @@ export class AuthService {
       id: profile.providerId,
       name: profile.name,
       provider: profile.provider,
+      email: profile.email,
     };
   }
 }

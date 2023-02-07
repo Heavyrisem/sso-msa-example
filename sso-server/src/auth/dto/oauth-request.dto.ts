@@ -2,8 +2,8 @@ import { auth } from '@heavyrisem/sso-msa-example-proto';
 import { IsEnum, IsString } from 'class-validator';
 
 export class OAuthRequestDto implements Required<auth.OAuthRequest> {
-  @IsEnum(auth.PROVIDER)
-  provider: auth.PROVIDER;
+  @IsEnum(auth.Provider)
+  provider: auth.Provider;
 
   @IsString()
   code: string;

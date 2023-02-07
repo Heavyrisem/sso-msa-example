@@ -19,11 +19,11 @@ message TokenPayload {
     uint32 id = 1;
     string name = 2;
     string email = 3;
-    PROVIDER provider = 4;
+    Provider provider = 4;
 }
 
 
-enum PROVIDER {
+enum Provider {
     GOOGLE = 0;
 }
 
@@ -31,11 +31,11 @@ message OAuthRequest {
     string code = 1;
     string redirect = 2;
     string callback = 3;
-    PROVIDER provider = 4;
+    Provider provider = 4;
 }
 
 message OAuthProfile {
-  PROVIDER provider = 1;
+  Provider provider = 1;
   uint32 providerId = 2;
   string email = 3;
   string name = 4;
@@ -44,5 +44,5 @@ message OAuthProfile {
 message OAuthState {
     string redirect = 1;
     string callback = 2;
-    PROVIDER provider = 3;
+    Provider provider = 3;
 }

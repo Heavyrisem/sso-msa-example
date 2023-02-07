@@ -1,5 +1,5 @@
 
 export type protos = 'auth/auth.proto'|'user/user.proto';
-export * from './auth/auth';
-export * from './user/user';
-  
+export * as auth from './auth/auth';
+export * as wrappers from './google/protobuf/wrappers';
+export * as user from './user/user';

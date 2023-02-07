@@ -45,8 +45,8 @@ const buildAllProto = () => {
   //   if (result.error) console.log(result.stderr.toString());
   // });
 
-  const result = execute("npx", ["tsproto", "--path", "./src"], {
-    cwd: join(__dirname, ".."),
+  const result = execute("yarn", ["build:protoc"], {
+    cwd: join(__dirname, "../src"),
   });
   if (result.error) console.log(result.stderr.toString());
 
@@ -66,8 +66,13 @@ const generateProtoTypes = (
 
   const typeString = `
 export type ${typeName} = '${protoFiles.join("'|'").split("\\").join("/")}';
-${typeFiles.map((filePath) => `export * from './${filePath}';`).join("\n")}
-  `;
+${typeFiles
+  .map(
+    (filePath) =>
+      `export * as ${filePath.split("/").pop()} from './${filePath}';`
+  )
+  .join("\n")}
+`;
   fs.writeFileSync(savePath, typeString);
 
   console.log("Types Build Finish");

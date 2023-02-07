@@ -15,5 +15,5 @@ export class User extends CoreEntity {
   providerId: number;
 
   @Column()
-  provider: auth.PROVIDER;
+  provider: auth.Provider;
 }

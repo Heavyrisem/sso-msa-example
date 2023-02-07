@@ -11,6 +11,6 @@ export class OAuthProfileDto implements Required<auth.OAuthProfile> {
   @IsString()
   email: string;
 
-  @IsEnum(auth.PROVIDER)
-  provider: auth.PROVIDER;
+  @IsEnum(auth.Provider)
+  provider: auth.Provider;
 }

@@ -22,7 +22,7 @@ export class AuthController {
     const state: Required<auth.OAuthState> = {
       redirect,
       callback,
-      provider: auth.PROVIDER.GOOGLE,
+      provider: auth.Provider.GOOGLE,
     };
     const params = createQueryParameter({
       state,
