@@ -1,4 +1,4 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { Provider } from '@heavyrisem/sso-msa-example-proto';
 import { Strategy, Profile } from 'passport-google-oauth20';
 
 import { Injectable } from '@nestjs/common';
@@ -25,7 +25,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') impleme
     const { accessToken } = await this.getOAuthAccessToken(code, { redirect_uri });
     const profile = await this.getUserProfile(accessToken);
     return {
-      provider: auth.Provider.GOOGLE,
+      provider: Provider.GOOGLE,
       providerId: +profile.id,
       name: profile.name.givenName,
       email: profile.emails[0].value,

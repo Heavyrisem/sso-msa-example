@@ -1,9 +1,8 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { Provider, OAuthState } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
-import { BadRequestException, Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthGuard } from '@nestjs/passport';
 
 import { createQueryParameter } from '~modules/utils/url.util';
 
@@ -19,10 +18,10 @@ export class AuthController {
   ) {
     if (!callback || !redirect) throw new BadRequestException('some param is null');
 
-    const state: Required<auth.OAuthState> = {
+    const state: OAuthState = {
       redirect,
       callback,
-      provider: auth.Provider.GOOGLE,
+      provider: Provider.GOOGLE,
     };
     const params = createQueryParameter({
       state,

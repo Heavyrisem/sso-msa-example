@@ -46,7 +46,7 @@ const buildAllProto = () => {
   // });
 
   const result = execute("yarn", ["build:protoc"], {
-    cwd: join(__dirname, "../src"),
+    cwd: join(__dirname, ".."),
   });
   if (result.error) console.log(result.stderr.toString());
 
@@ -66,12 +66,7 @@ const generateProtoTypes = (
 
   const typeString = `
 export type ${typeName} = '${protoFiles.join("'|'").split("\\").join("/")}';
-${typeFiles
-  .map(
-    (filePath) =>
-      `export * as ${filePath.split("/").pop()} from './${filePath}';`
-  )
-  .join("\n")}
+${typeFiles.map((filePath) => `export * from './${filePath}';`).join("\n")}
 `;
   fs.writeFileSync(savePath, typeString);
 

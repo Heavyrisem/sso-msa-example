@@ -1,7 +1,7 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthProfile, Provider } from '@heavyrisem/sso-msa-example-proto';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
 
-export class OAuthProfileDto implements Required<auth.OAuthProfile> {
+export class OAuthProfileDto implements Required<OAuthProfile> {
   @IsString()
   name: string;
 
@@ -11,6 +11,6 @@ export class OAuthProfileDto implements Required<auth.OAuthProfile> {
   @IsString()
   email: string;
 
-  @IsEnum(auth.Provider)
-  provider: auth.Provider;
+  @IsEnum(Provider)
+  provider: Provider;
 }

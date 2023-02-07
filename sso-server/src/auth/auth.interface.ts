@@ -1,5 +1,5 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { Provider, OAuthProfile } from '@heavyrisem/sso-msa-example-proto';
 
-export interface GoogleUser extends Required<auth.OAuthProfile> {
-  provider: auth.Provider.GOOGLE;
+export interface GoogleUser extends OAuthProfile {
+  provider: Provider.GOOGLE;
 }

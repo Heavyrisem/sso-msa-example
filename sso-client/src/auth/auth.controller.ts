@@ -1,4 +1,4 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
 import {
@@ -49,7 +49,7 @@ export class AuthController {
     if (!code) throw new BadRequestException('Code is empty');
     if (!state) throw new BadRequestException('State is empty');
 
-    const { redirect, callback, provider } = JSON.parse(state ?? '{}') as auth.OAuthState;
+    const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
     console.log('redirect', redirect, 'callback', callback);
     const profile = await this.authService.getOAuthProfile({
       code,

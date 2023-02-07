@@ -1,10 +1,10 @@
-import { auth } from '@heavyrisem/sso-msa-example-proto';
+import { Provider, User as ProtoUser } from '@heavyrisem/sso-msa-example-proto';
 import { Column, Entity } from 'typeorm';
 
 import { CoreEntity } from '~src/modules/database/core.entity';
 
 @Entity()
-export class User extends CoreEntity {
+export class User extends CoreEntity implements ProtoUser {
   @Column()
   email: string;
 
@@ -15,5 +15,5 @@ export class User extends CoreEntity {
   providerId: number;
 
   @Column()
-  provider: auth.Provider;
+  provider: Provider;
 }
