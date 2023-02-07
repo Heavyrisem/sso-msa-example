@@ -423,10 +423,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.0":
-  version "1.2.0"
-  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.0/664b29f360d52a0e13c629e6a40c3b22923b5c89#664b29f360d52a0e13c629e6a40c3b22923b5c89"
-  integrity sha512-c8nDC6CVIrW4LkkfBThtxsZ9xFNIZ4iQkr3jJNVCVC1p0U/vHrep/cqaU4cvNk92qkPiRpYKjwmbdf3+AieJ+g==
+"@heavyrisem/sso-msa-example-proto@^1.2.5":
+  version "1.2.5"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.5/2567b544f5d29a34c912a22cd97ac12b457cbe96#2567b544f5d29a34c912a22cd97ac12b457cbe96"
+  integrity sha512-BgecEwjEcMxKV9An562uXlSV9zy4cfYZ5tMQcw2cmBMIpbBzHFU2W+XhmCXamVRf7e0UesTizgQ3z9yJb36KMg==
   dependencies:
     "@grpc/grpc-js" "^1.8.7"
     "@nestjs/microservices" "^9.3.5"

@@ -1,4 +1,8 @@
-import { getProtoPath } from '@heavyrisem/sso-msa-example-proto';
+import {
+  AUTH_PACKAGE_NAME,
+  getProtoPath,
+  USER_PACKAGE_NAME,
+} from '@heavyrisem/sso-msa-example-proto';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -13,8 +17,8 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       url: `0.0.0.0:${process.env.MSA_PORT}`,
-      protoPath: getProtoPath('auth/auth.proto'),
-      package: 'auth',
+      protoPath: [getProtoPath('auth/auth.proto'), getProtoPath('user/user.proto')],
+      package: [AUTH_PACKAGE_NAME, USER_PACKAGE_NAME],
     },
   });
 

@@ -24,5 +24,12 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: sso
       time_zone: UTC
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8090:80
+    environment:
+      - PMA_ARBITRARY=1
 volumes:
   db_volume:

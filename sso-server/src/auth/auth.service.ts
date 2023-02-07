@@ -5,32 +5,41 @@ import {
   BoolValue,
   StringValue,
   TokenPayload,
+  User,
 } from '@heavyrisem/sso-msa-example-proto';
 
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { UserService } from '~src/user/user.service';
+
 import { GoogleStrategy } from './strategy/google.strategy';
 
 @Injectable()
 export class AuthService {
-  logger = new Logger('AuthService');
+  logger = new Logger(AuthService.name);
 
   constructor(
     private readonly googleStrategy: GoogleStrategy,
     private readonly jwtService: JwtService,
+    private readonly userService: UserService,
   ) {}
 
-  async getProfile(code: string, redirectUri: string, provider: Provider) {
+  async getProfile(code: string, redirectUri: string, provider: Provider): Promise<User> {
+    let profile: OAuthProfile;
+
     switch (provider) {
       case Provider.GOOGLE:
-        return this.googleStrategy.getProfile(code, redirectUri);
+        profile = await this.googleStrategy.getProfile(code, redirectUri);
+        break;
       default:
         throw new BadRequestException(`OAuth provider not founded: ${provider}`);
     }
+
+    return this.userService.findUserOrSave(profile);
   }
 
-  generateToken(profile: Required<OAuthProfile>): Required<Token> {
+  generateToken(profile: OAuthProfile): Token {
     const payload = this.getPayloadFromProfile(profile);
 
     return {
@@ -39,17 +48,17 @@ export class AuthService {
     };
   }
 
-  verifyToken(token: StringValue): Required<BoolValue> {
+  verifyToken(token: StringValue): BoolValue {
     try {
       this.jwtService.verify(token.value);
       return { value: true };
     } catch (err) {
-      this.logger.error(`${err}, ${token.value}`);
+      this.logger.warn(`${err}, ${token.value}`);
       return { value: false };
     }
   }
 
-  private getPayloadFromProfile(profile: Required<OAuthProfile>): Required<TokenPayload> {
+  private getPayloadFromProfile(profile: OAuthProfile): TokenPayload {
     return {
       id: profile.providerId,
       name: profile.name,

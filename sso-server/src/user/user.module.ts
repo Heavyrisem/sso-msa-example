@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { DatabaseModule } from '~src/modules/database/database.module';
 
-import { UserController } from './user.controller';
+import { UserRpcController } from './user-rpc.controller';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -11,6 +11,6 @@ import { UserService } from './user.service';
   imports: [DatabaseModule, TypeOrmModule.forFeature([User])],
   providers: [UserService],
   exports: [UserService],
-  controllers: [UserController],
+  controllers: [UserRpcController],
 })
 export class UserModule {}

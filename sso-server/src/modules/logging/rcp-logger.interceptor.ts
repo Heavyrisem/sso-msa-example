@@ -1,16 +1,19 @@
-// import { Observable, tap } from 'rxjs';
+import { inspect } from 'util';
 
-// import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import { Observable } from 'rxjs';
 
-// @Injectable()
-// export class RpcLoggerInterceptor implements NestInterceptor {
-//   logger = new Logger(RpcLoggerInterceptor.name);
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 
-//   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-//     // const input = context.switchToRpc().getData();
-//     this.logger.log('test');
-//     // https://github.com/nestjs/nest/issues/10275
-//     // Nestjs 에서 gRpc 요청에 대해 자세한 정보를 아직 제공하지 않아서 로깅이 불가능함
-//     return next.handle();
-//   }
-// }
+@Injectable()
+export class RpcLoggerInterceptor implements NestInterceptor {
+  logger = new Logger('RpcRequestLogger');
+
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const input = JSON.stringify(context.switchToRpc().getData());
+    const controller = (context.switchToRpc() as any)?.constructorRef?.name || 'unknown';
+    const method = (context.switchToHttp() as any)?.handler?.name || 'unknown';
+
+    this.logger.log(`${controller}.${method}, ${input}`);
+    return next.handle();
+  }
+}

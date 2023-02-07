@@ -1,9 +1,8 @@
+import { OAuthProfile } from '@heavyrisem/sso-msa-example-proto';
 import { Repository } from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { GoogleUser } from '~src/auth/auth.interface';
 
 import { User } from './user.entity';
 
@@ -11,10 +10,11 @@ import { User } from './user.entity';
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async findUserById(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+  async findUserByProviderId(providerId: string): Promise<User> {
+    return this.userRepository.findOne({ where: { providerId } });
   }
-  async findUserByIdOrSave(user: GoogleUser) {
+
+  async findUserOrSave(user: User | OAuthProfile): Promise<User> {
     const existUser = await this.userRepository.findOne({ where: { providerId: user.providerId } });
     if (existUser) return existUser;
 

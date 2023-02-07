@@ -2,24 +2,26 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 import { Provider } from "../auth/auth";
-import { Int32Value } from "../google/protobuf/wrappers";
+import { StringValue } from "../google/protobuf/wrappers";
 
 export interface User {
   id: number;
   name: string;
   email: string;
-  providerId: number;
+  providerId: string;
   provider: Provider;
+  createdAt: number;
+  deletedAt: number;
 }
 
 export const USER_PACKAGE_NAME = "user";
 
 export interface UserServiceClient {
-  findUserById(request: Int32Value): Observable<User>;
+  findUserById(request: StringValue): Observable<User>;
 }
 
 export interface UserServiceController {
-  findUserById(request: Int32Value): Promise<User> | Observable<User> | User;
+  findUserById(request: StringValue): Promise<User> | Observable<User> | User;
 }
 
 export function UserServiceControllerMethods() {

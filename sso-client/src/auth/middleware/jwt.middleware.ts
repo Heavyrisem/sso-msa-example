@@ -1,32 +1,35 @@
-// import { auth } from '@heavyrisem/sso-msa-example-proto';
-// import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-// import { Injectable, InternalServerErrorException, NestMiddleware } from '@nestjs/common';
-// import { JwtService } from '@nestjs/jwt';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
-// import { UserService } from '~src/user/user.service';
+import { UserService } from '~src/user/user.service';
 
-// @Injectable()
-// export class JwtMiddleware implements NestMiddleware {
-//   constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
+import { AuthService } from '../auth.service';
 
-//   async use(req: Request, res: Response, next: NextFunction) {
-//     try {
-//       const accessToken = req.cookies['accessToken'];
-//       if (accessToken) {
-//         const payload = this.jwtService.decode(accessToken) as auth.TokenPayload;
+@Injectable()
+export class JwtMiddleware implements NestMiddleware {
+  logger = new Logger(JwtMiddleware.name);
 
-//         if (typeof payload === 'object' && payload['id']) {
-//           const user = await this.userService.findById(payload.id);
-//           req['user'] = user;
-//           req['payload'] = payload;
-//         }
-//       }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
-//       next();
-//     } catch (err) {
-//       console.log(err);
-//       throw new InternalServerErrorException('Error With Parsing JWT');
-//     }
-//   }
-// }
+  async use(req: Request, res: Response, next: NextFunction) {
+    try {
+      const accessToken = this.authService.getAccessTokenFromRequest(req);
+      if (accessToken) {
+        const payload = this.authService.getPayload(accessToken);
+
+        if (typeof payload === 'object' && payload['id']) {
+          const user = await this.userService.findUserById(payload.id);
+          req['user'] = user;
+        }
+      }
+    } catch (err) {
+      this.logger.warn(err);
+    } finally {
+      next();
+    }
+  }
+}

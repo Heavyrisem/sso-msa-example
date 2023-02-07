@@ -14,7 +14,7 @@ export interface Token {
 }
 
 export interface TokenPayload {
-  id: number;
+  id: string;
   name: string;
   email: string;
   provider: Provider;
@@ -29,7 +29,7 @@ export interface OAuthRequest {
 
 export interface OAuthProfile {
   provider: Provider;
-  providerId: number;
+  providerId: string;
   email: string;
   name: string;
 }

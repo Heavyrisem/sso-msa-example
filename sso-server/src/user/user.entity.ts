@@ -12,7 +12,7 @@ export class User extends CoreEntity implements ProtoUser {
   name: string;
 
   @Column()
-  providerId: number;
+  providerId: string;
 
   @Column()
   provider: Provider;

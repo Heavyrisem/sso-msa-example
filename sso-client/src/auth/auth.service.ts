@@ -1,27 +1,28 @@
 import {
   AuthServiceClient,
+  AUTH_PACKAGE_NAME,
+  AUTH_SERVICE_NAME,
   BoolValue,
   OAuthProfile,
   OAuthRequest,
   Token,
   TokenPayload,
 } from '@heavyrisem/sso-msa-example-proto';
+import { Request } from 'express';
 
 import { BadRequestException, Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 
 import { getResultFromObservable } from '~modules/utils/observable.utils';
 
-import { AUTH_PROVIDER, SERVICE_NAME } from './auth.constants';
-
 @Injectable()
 export class AuthService implements OnModuleInit {
   private authService: AuthServiceClient;
 
-  constructor(@Inject(AUTH_PROVIDER) private readonly client: ClientGrpc) {}
+  constructor(@Inject(AUTH_PACKAGE_NAME) private readonly client: ClientGrpc) {}
 
   onModuleInit() {
-    this.authService = this.client.getService<AuthServiceClient>(SERVICE_NAME);
+    this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
   generateToken(profile: OAuthProfile): Promise<Token> {
@@ -42,5 +43,12 @@ export class AuthService implements OnModuleInit {
     const res = Buffer.from(payload, 'base64').toString();
     console.log(res);
     return JSON.parse(res) as TokenPayload;
+  }
+
+  getAccessTokenFromRequest(req: Request): string | null {
+    return req.cookies['accessToken'] || null;
+    // const [_, accessToken] = req.cookies['accessToken']?.split(' ') || [null, null];
+    // console.log(accessToken);
+    // return accessToken;
   }
 }
