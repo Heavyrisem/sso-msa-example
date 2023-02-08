@@ -43,7 +43,7 @@ export class AuthService {
     const payload = this.getPayloadFromProfile(profile);
 
     return {
-      accessToken: this.jwtService.sign(payload, { expiresIn: '60s' }),
+      accessToken: this.jwtService.sign(payload, { expiresIn: '1h' }),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '4h' }),
     };
   }

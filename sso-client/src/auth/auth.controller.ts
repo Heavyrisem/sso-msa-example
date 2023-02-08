@@ -15,17 +15,6 @@ import { RefreshGuard } from './guards/refresh.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('b')
-  b() {
-    return 'asdf';
-  }
-
-  @Get('')
-  a() {
-    throw new BadRequestException('BadRequestException');
-    // return { af: 'asdfasdf' };
-  }
-
   @UseGuards(LoggedInGuard)
   @Get('/test')
   async test(@GetUser() user: UserSSO) {

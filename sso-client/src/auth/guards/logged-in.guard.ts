@@ -1,12 +1,20 @@
 import { User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
 import { Request } from 'express';
 
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { AuthService } from '../auth.service';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
+  logger = new Logger(LoggedInGuard.name);
+
   constructor(private readonly authService: AuthService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,7 +26,6 @@ export class LoggedInGuard implements CanActivate {
     const { value: isValid } = await this.authService.verifyToken(accessToken);
     if (!isValid) throw new UnauthorizedException('Token Expired');
 
-    console.log(isValid, (request.user.createdAt as unknown as Long).toInt());
     return request.user !== undefined;
   }
 }

@@ -4,6 +4,7 @@ import {
   USER_PACKAGE_NAME,
   USER_SERVICE_NAME,
 } from '@heavyrisem/sso-msa-example-proto';
+import { map } from 'rxjs';
 
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -21,6 +22,16 @@ export class UserService implements OnModuleInit {
   }
 
   findUserById(id: User['providerId']): Promise<User> {
-    return getResultFromObservable(this.userService.findUserById({ value: id }));
+    return getResultFromObservable(
+      this.userService.findUserById({ value: id }).pipe(map(this.transformUser)),
+    );
+  }
+
+  private transformUser(user: User): User {
+    return {
+      ...user,
+      createdAt: +`${user.createdAt}`,
+      deletedAt: +`${user.deletedAt}`,
+    };
   }
 }
