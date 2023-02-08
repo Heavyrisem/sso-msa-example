@@ -11,8 +11,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
 
-  app.useGlobalFilters(new RpcExceptionFilter());
   app.useGlobalInterceptors(new HttpLoggerInterceptor());
+  app.useGlobalFilters(new RpcExceptionFilter());
 
   await app.listen(process.env.PORT);
 }

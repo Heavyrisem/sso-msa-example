@@ -407,12 +407,25 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.5":
+"@heavyrisem/sso-msa-example-proto@1.2.5":
   version "1.2.5"
   resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.5/2567b544f5d29a34c912a22cd97ac12b457cbe96#2567b544f5d29a34c912a22cd97ac12b457cbe96"
   integrity sha512-BgecEwjEcMxKV9An562uXlSV9zy4cfYZ5tMQcw2cmBMIpbBzHFU2W+XhmCXamVRf7e0UesTizgQ3z9yJb36KMg==
   dependencies:
     "@grpc/grpc-js" "^1.8.7"
+    "@nestjs/microservices" "^9.3.5"
+    copyfiles "^2.4.1"
+    cross-spawn "^7.0.3"
+    rxjs "^7.8.0"
+    ts-proto "^1.139.0"
+
+"@heavyrisem/sso-msa-example-proto@^1.2.6":
+  version "1.2.6"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.6/b2e676484ece6308769a1d90d2f80e83f10a1a38#b2e676484ece6308769a1d90d2f80e83f10a1a38"
+  integrity sha512-7kjFUw5QITw46AKAxdU6qlK/z6Um3eyHD29oEGSp6LrqXvSleqCplEbJa/F54EqjQnebWKnv1+zXeKwTs8xxMg==
+  dependencies:
+    "@grpc/grpc-js" "^1.8.7"
+    "@heavyrisem/sso-msa-example-proto" "1.2.5"
     "@nestjs/microservices" "^9.3.5"
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"
@@ -5143,17 +5156,17 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
   integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
 
-qs@6.11.0, qs@^6.10.3:
+qs@6.11.0, qs@^6.11.0:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
   integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
   dependencies:
     side-channel "^1.0.4"
 
-qs@6.9.3:
-  version "6.9.3"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.3.tgz#bfadcd296c2d549f1dffa560619132c977f5008e"
-  integrity sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw==
+querystringify@^2.1.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
+  integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
 
 queue-microtask@^1.2.2:
   version "1.2.3"

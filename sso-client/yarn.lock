@@ -415,12 +415,25 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.5":
+"@heavyrisem/sso-msa-example-proto@1.2.5":
   version "1.2.5"
   resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.5/2567b544f5d29a34c912a22cd97ac12b457cbe96#2567b544f5d29a34c912a22cd97ac12b457cbe96"
   integrity sha512-BgecEwjEcMxKV9An562uXlSV9zy4cfYZ5tMQcw2cmBMIpbBzHFU2W+XhmCXamVRf7e0UesTizgQ3z9yJb36KMg==
   dependencies:
     "@grpc/grpc-js" "^1.8.7"
+    "@nestjs/microservices" "^9.3.5"
+    copyfiles "^2.4.1"
+    cross-spawn "^7.0.3"
+    rxjs "^7.8.0"
+    ts-proto "^1.139.0"
+
+"@heavyrisem/sso-msa-example-proto@^1.2.6":
+  version "1.2.6"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.6/b2e676484ece6308769a1d90d2f80e83f10a1a38#b2e676484ece6308769a1d90d2f80e83f10a1a38"
+  integrity sha512-7kjFUw5QITw46AKAxdU6qlK/z6Um3eyHD29oEGSp6LrqXvSleqCplEbJa/F54EqjQnebWKnv1+zXeKwTs8xxMg==
+  dependencies:
+    "@grpc/grpc-js" "^1.8.7"
+    "@heavyrisem/sso-msa-example-proto" "1.2.5"
     "@nestjs/microservices" "^9.3.5"
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"

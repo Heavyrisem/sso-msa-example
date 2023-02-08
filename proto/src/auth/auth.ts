@@ -18,6 +18,8 @@ export interface TokenPayload {
   name: string;
   email: string;
   provider: Provider;
+  iat: number;
+  exp: number;
 }
 
 export interface OAuthRequest {

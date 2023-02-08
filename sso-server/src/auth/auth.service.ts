@@ -41,6 +41,8 @@ export class AuthService {
 
   generateToken(profile: OAuthProfile): Token {
     const payload = this.getPayloadFromProfile(profile);
+    delete payload.exp;
+    delete payload.iat;
 
     return {
       accessToken: this.jwtService.sign(payload, { expiresIn: '1h' }),
@@ -64,6 +66,8 @@ export class AuthService {
       name: profile.name,
       provider: profile.provider,
       email: profile.email,
+      iat: 0,
+      exp: 0,
     };
   }
 }

@@ -1,0 +1,130 @@
+import { useCallback } from 'react';
+
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { LoginResponse, RegisterResponse } from 'types/API';
+
+// import type { OAuthState } from '@heavyrisem/sso-msa-example-proto';
+import { BaseAtom } from '@recoil/atom.interface';
+import authorizationState from '@recoil/atoms/authorization';
+import userState from '@recoil/atoms/user';
+import { getLoggedInUser } from '@utils/api/user';
+import providerToString from '@utils/provider.utils';
+import createQueryParameter from '@utils/url.util';
+
+import useAxiosInstance from './useAxiosInstance';
+
+export interface BasicRegisterForm {
+  email: string;
+  name: string;
+  password: string;
+}
+export interface BasicLoginForm {
+  email: string;
+  password: string;
+}
+export interface TwoFactorLoginForm {
+  twoFactorCode: string;
+}
+
+const useUser = () => {
+  const axiosInstance = useAxiosInstance();
+  const setAuthorization = useSetRecoilState(authorizationState);
+  const resetAuthorization = useResetRecoilState(authorizationState);
+  const setUser = useSetRecoilState(userState);
+
+  const fetchUser = useCallback(
+    async (token?: string) => {
+      // FIXME: token update 직후에 user 업데이트를 하는 경우, authorization 값이 비어있어서 401 반환
+      const headers = token
+        ? {
+            authorization: `Bearer ${token}`,
+          }
+        : {};
+      const { result: user } = await getLoggedInUser(axiosInstance, { headers }).catch(() => ({
+        result: null,
+      }));
+      setUser(user);
+    },
+    [axiosInstance, setUser],
+  );
+
+  const redirectSSO = useCallback(() => {
+    const params = createQueryParameter({
+      redirect: `${window.location.origin}/api/auth/refresh`,
+      callback: `${window.location.origin}/auth`,
+      provider: 'google',
+    });
+    // redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
+    window.location.href = `http://localhost:3000/api/auth?${params}`;
+  }, []);
+
+  const fetchRefreshToken = useCallback(async () => {
+    const query = new URLSearchParams(window.location.search);
+    const rawState = query.get('state');
+    if (!rawState) throw new Error('Invalid state');
+    const state = JSON.parse(rawState);
+
+    const request = {
+      url: `/api/auth/callback/${providerToString(state.provider)}${window.location.search}`,
+      method: 'GET',
+    };
+    console.log('request', request);
+    const result = await axiosInstance(request);
+
+    console.log(result);
+  }, [axiosInstance]);
+
+  const login = useCallback(
+    async ({ saveStorage, ...data }: BasicLoginForm & BaseAtom) => {
+      const response = await axiosInstance
+        .post<LoginResponse>('/api/auth/login', data)
+        .then((res) => res.data);
+
+      if (response) {
+        const { accessToken: token } = response;
+        setAuthorization({ token, saveStorage });
+        fetchUser(token);
+      }
+    },
+    [axiosInstance, fetchUser, setAuthorization],
+  );
+
+  const logout = useCallback(() => {
+    resetAuthorization();
+    setUser(null);
+  }, [resetAuthorization, setUser]);
+
+  const twoFactorLogin = useCallback(
+    async (data: TwoFactorLoginForm) => {
+      const response = await axiosInstance
+        .post<LoginResponse>('/api/auth/login/2fa', data)
+        .then((res) => res.data);
+
+      if (response) {
+        const { accessToken: token } = response;
+        setAuthorization({ token });
+        fetchUser(token);
+      }
+    },
+    [axiosInstance, fetchUser, setAuthorization],
+  );
+
+  const register = useCallback(
+    async (data: BasicRegisterForm) => {
+      const response = await axiosInstance
+        .post<RegisterResponse>('/api/auth/register', data)
+        .then((res) => res.data);
+
+      if (response) {
+        const { accessToken: token } = response;
+        setAuthorization({ token });
+        fetchUser(token);
+      }
+    },
+    [axiosInstance, fetchUser, setAuthorization],
+  );
+
+  return { login, logout, twoFactorLogin, register, fetchUser, redirectSSO, fetchRefreshToken };
+};
+
+export default useUser;

@@ -59,7 +59,7 @@ export class RpcExceptionFilter implements ExceptionFilter {
         HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    this.logger.verbose(`${method} ${path} ==> ${exception}\n${exception.stack}`);
+    this.logger.verbose(`${method} ${path} ==> ${status} ${exception}\n${exception.stack}`);
 
     return response.status(status).json({
       statusCode: status,

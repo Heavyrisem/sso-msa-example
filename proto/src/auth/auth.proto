@@ -20,6 +20,8 @@ message TokenPayload {
     string name = 2;
     string email = 3;
     Provider provider = 4;
+    uint64 iat = 5;
+    uint64 exp = 6;
 }
 
 
