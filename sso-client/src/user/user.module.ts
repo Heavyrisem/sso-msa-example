@@ -2,12 +2,9 @@ import { getProtoPath, USER_PACKAGE_NAME } from '@heavyrisem/sso-msa-example-pro
 
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConfigurationModule } from '~modules/config/config.module';
-import { DatabaseModule } from '~src/modules/database/database.module';
 
-import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Module({

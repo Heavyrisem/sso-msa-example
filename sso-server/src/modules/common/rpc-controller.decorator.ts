@@ -9,13 +9,13 @@ import {
 
 import { RpcLoggerInterceptor } from '~modules/logging/rcp-logger.interceptor';
 
-import { HttpExceptionFilter } from './exception.filter';
+import { RpcExceptionFilter } from './rpc-exception.filter';
 
 export const RpcController = (name: string, CustomDecorator: () => ClassDecorator) => {
   return applyDecorators(
     Controller(name),
     UseInterceptors(RpcLoggerInterceptor),
-    UseFilters(HttpExceptionFilter),
+    UseFilters(RpcExceptionFilter),
     UsePipes(new ValidationPipe({ transform: true })),
     CustomDecorator(),
   );

@@ -384,17 +384,9 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@grpc/grpc-js@^1.8.4":
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.4.tgz#316674e8905e2dd310d8aa60331e05b32584e6ad"
-  integrity sha512-oaETBotls7FTBpySg5dhyUCyXSxSeCMmkBBXHXG1iw57MiNoB6D7VRhkrXYbwyHM3Q3Afjp4KlsBX0Zb+ELZXw==
-  dependencies:
-    "@grpc/proto-loader" "^0.7.0"
-    "@types/node" ">=12.12.47"
-
 "@grpc/grpc-js@^1.8.7":
   version "1.8.7"
-  resolved "https://registry.npmjs.org/@grpc/grpc-js/-/grpc-js-1.8.7.tgz#2154fc0134462ad45f4134e8b54682a25ed05956"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.7.tgz#2154fc0134462ad45f4134e8b54682a25ed05956"
   integrity sha512-dRAWjRFN1Zy9mzPNLkFFIWT8T6C9euwluzCHZUKuhC+Bk3MayNPcpgDRyG+sg+n2sitEUySKxUynirVpu9ItKw==
   dependencies:
     "@grpc/proto-loader" "^0.7.0"
@@ -728,10 +720,10 @@
     webpack "5.73.0"
     webpack-node-externals "3.0.0"
 
-"@nestjs/common@^9.3.5":
-  version "9.3.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-9.3.5.tgz#0fb5eff5ffb865e857b2033ee9df94c74b82bf33"
-  integrity sha512-18pEYuE+4Lj6r5kYbgy+S2Udmhxqd80dyVZkEcWt8mIwykVeGAITrJ/NIr26aQXoXXy0J3WNhqT7So3qh32ZZA==
+"@nestjs/common@^9.3.6":
+  version "9.3.6"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-9.3.6.tgz#be61508710c0aaf613e19c84e064797a7918171b"
+  integrity sha512-pPZwSEfLkMDUun6TXVmfAaohUEXLDbvOQPoIuj4n5Dc/L0czKmgfbK22XLVo5pJaEW1my9ifBTEo1bUgSrWBxw==
   dependencies:
     uid "2.0.1"
     iterare "1.2.1"

@@ -15,6 +15,8 @@ import { ClientGrpc } from '@nestjs/microservices';
 
 import { getResultFromObservable } from '~modules/utils/observable.utils';
 
+import { REFRESH_TOKEN_KEY } from './auth.constants';
+
 @Injectable()
 export class AuthService implements OnModuleInit {
   private authService: AuthServiceClient;
@@ -41,14 +43,15 @@ export class AuthService implements OnModuleInit {
     const [_, payload] = token.split('.');
     if (!payload) throw new BadRequestException('Invalid Token');
     const res = Buffer.from(payload, 'base64').toString();
-    console.log(res);
     return JSON.parse(res) as TokenPayload;
   }
 
-  getAccessTokenFromRequest(req: Request): string | null {
-    return req.cookies['accessToken'] || null;
-    // const [_, accessToken] = req.cookies['accessToken']?.split(' ') || [null, null];
-    // console.log(accessToken);
-    // return accessToken;
+  getTokenFromRequest(req: Request): Partial<Token> {
+    const accessToken = req.headers['authorization']?.split(' ')?.[1];
+
+    return {
+      accessToken: accessToken || null,
+      refreshToken: req.cookies[REFRESH_TOKEN_KEY] || null,
+    };
   }
 }

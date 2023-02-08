@@ -1,7 +1,8 @@
 import { Provider } from '@heavyrisem/sso-msa-example-proto';
 import { Strategy, Profile } from 'passport-google-oauth20';
+import { throwError } from 'rxjs';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
 import { GoogleUser } from '../auth.interface';
@@ -42,10 +43,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') impleme
         ...options,
       };
       this._oauth2.getOAuthAccessToken(code, params, (err, accessToken, refreshToken) => {
-        if (err)
+        if (err) {
           return reject(
-            `Fail to get AccessToken, status: ${err.statusCode}, response: ${err.data}`,
+            new HttpException(
+              `Fail to get GoogleOAuth AccessToken, response: ${err.data}`,
+              err.statusCode,
+            ),
           );
+        }
         resolve({ accessToken, refreshToken });
       });
     });

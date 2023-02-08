@@ -1,10 +1,12 @@
 import { status } from '@grpc/grpc-js';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 
 @Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
+export class RpcExceptionFilter implements ExceptionFilter {
+  logger = new Logger(RpcExceptionFilter.name);
+
   static HttpStatusCode: Record<number, number> = {
     // standard gRPC error mapping
     // https://cloud.google.com/apis/design/errors#handling_errors
@@ -33,16 +35,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
     [HttpStatus.PRECONDITION_FAILED]: status.FAILED_PRECONDITION,
   };
 
-  catch(exception: HttpException): Observable<never> | void {
-    const logger = new Logger('RpcExceptionFilter');
+  catch(exception: HttpException) {
     const httpStatus = exception.getStatus();
     const httpRes = exception.getResponse() as { details?: unknown };
 
-    logger.error(exception);
-    console.log(exception);
+    this.logger.error(exception);
+    this.logger.verbose(exception.stack);
+    // console.log('Exception caught: ', exception);
 
     return throwError(() => ({
-      code: HttpExceptionFilter.HttpStatusCode[httpStatus] ?? status.UNKNOWN,
+      code: RpcExceptionFilter.HttpStatusCode[httpStatus] ?? status.UNKNOWN,
       message: exception.message,
       details: Array.isArray(httpRes.details) ? httpRes.details : undefined,
     }));

@@ -1,22 +1,46 @@
 import { OAuthState, User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
-import { BadRequestException, Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
 
 import { createQueryParameter } from '~modules/utils/url.util';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
 
+import { REFRESH_TOKEN_KEY } from './auth.constants';
 import { AuthService } from './auth.service';
 import { LoggedInGuard } from './guards/logged-in.guard';
+import { RefreshGuard } from './guards/refresh.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get('b')
+  b() {
+    return 'asdf';
+  }
+
+  @Get('')
+  a() {
+    throw new BadRequestException('BadRequestException');
+    // return { af: 'asdfasdf' };
+  }
+
   @UseGuards(LoggedInGuard)
   @Get('/test')
   async test(@GetUser() user: UserSSO) {
     return user;
+  }
+
+  @UseGuards(RefreshGuard)
+  @Get('/refresh')
+  async refresh(@Res() res: Response, @GetUser() user: UserSSO) {
+    const { accessToken, refreshToken } = await this.authService.generateToken(user);
+
+    res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {
+      httpOnly: true,
+    });
+    res.send({ accessToken });
   }
 
   @Get('')
@@ -51,10 +75,7 @@ export class AuthController {
 
     const token = await this.authService.generateToken(profile);
 
-    res.cookie('accessToken', `${token.refreshToken}`, {
-      httpOnly: true,
-    });
-    res.cookie('refreshToken', `${token.refreshToken}`, {
+    res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {
       httpOnly: true,
     });
     return res.redirect(redirect);

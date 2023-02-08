@@ -17,9 +17,9 @@ export class JwtMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     try {
-      const accessToken = this.authService.getAccessTokenFromRequest(req);
-      if (accessToken) {
-        const payload = this.authService.getPayload(accessToken);
+      const { accessToken, refreshToken } = this.authService.getTokenFromRequest(req);
+      if (accessToken || refreshToken) {
+        const payload = this.authService.getPayload(accessToken || refreshToken);
 
         if (typeof payload === 'object' && payload['id']) {
           const user = await this.userService.findUserById(payload.id);

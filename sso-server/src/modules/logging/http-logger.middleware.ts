@@ -12,7 +12,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     const _body = JSON.stringify(req.body ? req.body : {});
     const _url = JSON.stringify(tempUrl ? tempUrl : {});
 
-    loggerService.log([`${_url} ${_body}`.replace(/\\/, ''), req.url.slice(1).split('/')[0]]);
+    // loggerService.log(`${_url} ${_body}`.replace(/\\/, ''), req.url.slice(1).split('/')[0]);
     next();
   }
 }

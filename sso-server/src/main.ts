@@ -8,6 +8,8 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
+import { HttpLoggerInterceptor } from '~modules/logging/http-logger.interceptor';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -21,6 +23,8 @@ async function bootstrap() {
       package: [AUTH_PACKAGE_NAME, USER_PACKAGE_NAME],
     },
   });
+
+  app.useGlobalInterceptors(new HttpLoggerInterceptor());
 
   await app.startAllMicroservices();
   logger.log(`MicroServices Running on ${process.env.MSA_PORT}`);

@@ -10,6 +10,16 @@ import { createQueryParameter } from '~modules/utils/url.util';
 export class AuthController {
   constructor(private readonly configService: ConfigService) {}
 
+  @Get('/a')
+  a() {
+    return 'asdf';
+  }
+
+  @Get('/b')
+  b() {
+    throw new BadRequestException('BadRequestException');
+  }
+
   @Get('/google')
   googleAuthRedirect(
     @Res() res: Response,
