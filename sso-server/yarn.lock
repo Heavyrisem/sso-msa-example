@@ -419,18 +419,29 @@
     rxjs "^7.8.0"
     ts-proto "^1.139.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.6":
-  version "1.2.6"
-  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.6/b2e676484ece6308769a1d90d2f80e83f10a1a38#b2e676484ece6308769a1d90d2f80e83f10a1a38"
-  integrity sha512-7kjFUw5QITw46AKAxdU6qlK/z6Um3eyHD29oEGSp6LrqXvSleqCplEbJa/F54EqjQnebWKnv1+zXeKwTs8xxMg==
+"@heavyrisem/sso-msa-example-proto@^1.2.14":
+  version "1.2.14"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.14/edbdbf018411b5bfc603eeaf47d8cd58ff7f4309#edbdbf018411b5bfc603eeaf47d8cd58ff7f4309"
+  integrity sha512-wAl581LGlokL/HHGea7a7yUMrkAuGGOxNYCVUWrOiMo0w1iZv0LXdwGnkZE9fjiWDjKLyJWbHbtl8tx0yN49FA==
   dependencies:
-    "@grpc/grpc-js" "^1.8.7"
     "@heavyrisem/sso-msa-example-proto" "1.2.5"
-    "@nestjs/microservices" "^9.3.5"
+    "@heavyrisem/ts-proto" "^1.139.2"
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"
     rxjs "^7.8.0"
-    ts-proto "^1.139.0"
+
+"@heavyrisem/ts-proto@^1.139.2":
+  version "1.139.2"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/ts-proto/1.139.2/6aa84d342519060d933c8ca55a0ba62c830c1482#6aa84d342519060d933c8ca55a0ba62c830c1482"
+  integrity sha512-BJGnOpGhrjXWTRRGzGGUxH7LX0qfLDp6nHneMJUJLEcJJlkataxlEU2x15UA80Tm6ev7oJ/Bm2G/qH5HMDFQYw==
+  dependencies:
+    "@types/object-hash" "^1.3.0"
+    case-anything "^2.1.10"
+    dataloader "^1.4.0"
+    object-hash "^1.3.1"
+    protobufjs "^6.11.3"
+    ts-poet "^6.2.0"
+    ts-proto-descriptors "1.7.1"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -765,10 +776,18 @@
     "@types/jsonwebtoken" "8.5.9"
     jsonwebtoken "9.0.0"
 
-"@nestjs/microservices@^9.2.1", "@nestjs/microservices@^9.3.5":
+"@nestjs/microservices@^9.3.5":
   version "9.3.5"
   resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-9.3.5.tgz#28844d82b202886d967297a74c745f6806588e90"
   integrity sha512-ww1fJupKQXCfx/SKvlD25lnGoGXRjwgV3+eJ5NAbJEPj/KxI9vYKjVlQ2iummEgjsMdC44eiMx4pZ69o0/IfBw==
+  dependencies:
+    iterare "1.2.1"
+    tslib "2.5.0"
+
+"@nestjs/microservices@^9.3.7":
+  version "9.3.7"
+  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-9.3.7.tgz#7ed4077be9fc6aa14eb8ba43a00e508e57ffc945"
+  integrity sha512-y3C8fTvKgDWiw8s7p2nDSPcgm8RhW/BclBxW1rhQseR7wOlpWCtlHJRdJVB2XZp8fhMMOUkVoudU0m3fudzKow==
   dependencies:
     iterare "1.2.1"
     tslib "2.5.0"
@@ -1240,6 +1259,15 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/passport-github@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@types/passport-github/-/passport-github-1.1.7.tgz#60b139bb4f94f8fc317046b2bba7f1ee62bb6871"
+  integrity sha512-CCBwZyBRy3fLOd96Idn00TLHMDXZIzUGXq+gSvB70h8k4j61dkbZCI6m5ZauL+hLdyJur7Z94tdfd8DBjFA0og==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+    "@types/passport-oauth2" "*"
+
 "@types/passport-google-oauth20@^2.0.11":
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/@types/passport-google-oauth20/-/passport-google-oauth20-2.0.11.tgz#271ec71de3030a3e1c004b24e633e4b298ccba97"
@@ -1248,6 +1276,14 @@
     "@types/express" "*"
     "@types/passport" "*"
     "@types/passport-oauth2" "*"
+
+"@types/passport-kakao@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/passport-kakao/-/passport-kakao-1.0.0.tgz#28bdacedda98c6a5a5cffa25f3f5f68e205cba45"
+  integrity sha512-wxBJdc4ThRTPrCN3JvnwnV+6PJJjso2WjcWuAgIghZtLmK8F/qfgAIKtWKeDoRYTPbZ0MSsjuCQhlXmDqrNicA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
 
 "@types/passport-oauth2@*":
   version "1.4.11"
@@ -4757,6 +4793,11 @@ oauth@0.9.x:
   resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
   integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
 
+oauth@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.10.0.tgz#3551c4c9b95c53ea437e1e21e46b649482339c58"
+  integrity sha512-1orQ9MT1vHFGQxhuy7E/0gECD3fd2fCC+PIX+/jgmU/gI3EpRocXtmtvxCO5x3WZ443FLTLFWNDjl5MPJf9u+Q==
+
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -4950,6 +4991,13 @@ parseurl@~1.3.3:
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
+passport-github@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/passport-github/-/passport-github-1.1.0.tgz#8ce1e3fcd61ad7578eb1df595839e4aea12355d4"
+  integrity sha512-XARXJycE6fFh/dxF+Uut8OjlwbFEXgbPVj/+V+K7cvriRK7VcAOm+NgBmbiLM9Qv3SSxEAV+V6fIk89nYHXa8A==
+  dependencies:
+    passport-oauth2 "1.x.x"
+
 passport-google-oauth20@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/passport-google-oauth20/-/passport-google-oauth20-2.0.0.tgz#0d241b2d21ebd3dc7f2b60669ec4d587e3a674ef"
@@ -4957,7 +5005,15 @@ passport-google-oauth20@^2.0.0:
   dependencies:
     passport-oauth2 "1.x.x"
 
-passport-oauth2@1.x.x:
+passport-kakao@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/passport-kakao/-/passport-kakao-1.0.1.tgz#e0593558afc0aa6244fc298be676b259f62b5e7a"
+  integrity sha512-uItaYRVrTHL6iGPMnMZvPa/O1GrAdh/V6EMjOHcFlQcVroZ9wgG7BZ5PonMNJCxfHQ3L2QVNRnzhKWUzSsumbw==
+  dependencies:
+    passport-oauth2 "~1.1.2"
+    pkginfo "~0.3.0"
+
+passport-oauth2@1.x.x, passport-oauth2@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/passport-oauth2/-/passport-oauth2-1.6.1.tgz#c5aee8f849ce8bd436c7f81d904a3cd1666f181b"
   integrity sha512-ZbV43Hq9d/SBSYQ22GOiglFsjsD1YY/qdiptA+8ej+9C1dL1TVB+mBE5kDH/D4AJo50+2i8f4bx0vg4/yDDZCQ==
@@ -4967,6 +5023,15 @@ passport-oauth2@1.x.x:
     passport-strategy "1.x.x"
     uid2 "0.0.x"
     utils-merge "1.x.x"
+
+passport-oauth2@~1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/passport-oauth2/-/passport-oauth2-1.1.2.tgz#bd7163b1b6090371868dc4ef6f9f2e1e4cc4b948"
+  integrity sha512-wpsGtJDHHQUjyc9WcV9FFB0bphFExpmKtzkQrxpH1vnSr6RcWa3ZEGHx/zGKAh2PN7Po9TKYB1fJeOiIBspNPA==
+  dependencies:
+    oauth "0.9.x"
+    passport-strategy "1.x.x"
+    uid2 "0.0.x"
 
 passport-strategy@1.x.x:
   version "1.0.0"
@@ -5043,6 +5108,11 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+pkginfo@~0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/pkginfo/-/pkginfo-0.3.1.tgz#5b29f6a81f70717142e09e765bbeab97b4f81e21"
+  integrity sha512-yO5feByMzAp96LtP58wvPKSbaKAi/1C4kV9XpTctr6EepnP6F33RBNOiVrdz9BrPA98U2BMFsTNHo44TWcbQ2A==
 
 pluralize@8.0.0:
   version "8.0.0"

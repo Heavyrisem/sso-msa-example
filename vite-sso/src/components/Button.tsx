@@ -2,7 +2,7 @@ import React from 'react';
 
 import tw from 'twin.macro';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const Button: React.FC<ButtonProps> = (props) => {
   return (

@@ -1,11 +1,11 @@
 import { OAuthProfile, Provider } from '@heavyrisem/sso-msa-example-proto';
-import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
 
 export class OAuthProfileDto implements OAuthProfile {
   @IsString()
   name: string;
 
-  @IsNumber()
+  @IsString()
   providerId: string;
 
   @IsString()

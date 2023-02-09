@@ -13,7 +13,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from '~src/user/user.service';
 
+import { GithubStrategy } from './strategy/github.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { KakaoStrategy } from './strategy/kakao.strategy';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +23,8 @@ export class AuthService {
 
   constructor(
     private readonly googleStrategy: GoogleStrategy,
+    private readonly githubStrategy: GithubStrategy,
+    private readonly kakaoStrategy: KakaoStrategy,
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
   ) {}
@@ -32,11 +36,43 @@ export class AuthService {
       case Provider.GOOGLE:
         profile = await this.googleStrategy.getProfile(code, redirectUri);
         break;
+      case Provider.GITHUB:
+        profile = await this.githubStrategy.getProfile(code, redirectUri);
+        break;
+      case Provider.KAKAO:
+        profile = await this.kakaoStrategy.getProfile(code, redirectUri);
+        break;
       default:
         throw new BadRequestException(`OAuth provider not founded: ${provider}`);
     }
 
     return this.userService.findUserOrSave(profile);
+  }
+
+  getParameterForProvider(provider: Provider) {
+    switch (provider) {
+      case Provider.GOOGLE:
+        return this.googleStrategy.getParameter();
+      case Provider.GITHUB:
+        return this.githubStrategy.getParameter();
+      case Provider.KAKAO:
+        return this.kakaoStrategy.getParameter();
+      default:
+        throw new BadRequestException(`OAuth provider not founded: ${provider}`);
+    }
+  }
+
+  getAuthorizationURL(provider: Provider) {
+    switch (provider) {
+      case Provider.GOOGLE:
+        return this.googleStrategy.getAuthorizationURL();
+      case Provider.GITHUB:
+        return this.githubStrategy.getAuthorizationURL();
+      case Provider.KAKAO:
+        return this.kakaoStrategy.getAuthorizationURL();
+      default:
+        throw new BadRequestException(`OAuth provider not founded: ${provider}`);
+    }
   }
 
   generateToken(profile: OAuthProfile): Token {
@@ -45,8 +81,8 @@ export class AuthService {
     delete payload.iat;
 
     return {
-      accessToken: this.jwtService.sign(payload, { expiresIn: '1h' }),
-      refreshToken: this.jwtService.sign(payload, { expiresIn: '4h' }),
+      accessToken: this.jwtService.sign(payload, { expiresIn: '5m' }),
+      refreshToken: this.jwtService.sign(payload, { expiresIn: '1h' }),
     };
   }
 

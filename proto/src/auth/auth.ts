@@ -1,10 +1,11 @@
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 import { BoolValue, StringValue } from "../google/protobuf/wrappers";
 
 export enum Provider {
   GOOGLE = 0,
+  GITHUB = 1,
+  KAKAO = 2,
   UNRECOGNIZED = -1,
 }
 
@@ -58,21 +59,6 @@ export interface AuthServiceController {
   generateToken(request: OAuthProfile): Promise<Token> | Observable<Token> | Token;
 
   getOAuthProfile(request: OAuthRequest): Promise<OAuthProfile> | Observable<OAuthProfile> | OAuthProfile;
-}
-
-export function AuthServiceControllerMethods() {
-  return function (constructor: Function) {
-    const grpcMethods: string[] = ["verifyToken", "generateToken", "getOAuthProfile"];
-    for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
-    }
-    const grpcStreamMethods: string[] = [];
-    for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
-    }
-  };
 }
 
 export const AUTH_SERVICE_NAME = "AuthService";

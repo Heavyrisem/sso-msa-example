@@ -1,34 +1,32 @@
 import { Provider } from '@heavyrisem/sso-msa-example-proto';
-import { Strategy, Profile } from 'passport-google-oauth20';
 
-import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
-import { CustomStrategy, GoogleUser } from '../auth.interface';
+import { Strategy } from 'passport-kakao';
+
+import { CustomStrategy, KakaoUser } from '../auth.interface';
 
 @Injectable()
-export class GoogleStrategy
-  extends PassportStrategy(Strategy, 'google')
-  implements CustomStrategy<GoogleUser>
+export class KakaoStrategy
+  extends PassportStrategy(Strategy, 'kakao')
+  implements CustomStrategy<KakaoUser>
 {
   params: Record<string, any>;
 
   constructor() {
     const params = {
-      authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
-      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-      scope: ['email', 'profile'],
+      authorizationURL: 'https://kauth.kakao.com/oauth/authorize',
+      clientID: process.env.KAKAO_OAUTH_CLIENT_ID,
+      clientSecret: process.env.KAKAO_OAUTH_CLIENT_SECRET,
     };
 
     super(params);
     this.params = params;
   }
-
   getParameter() {
     return {
       client_id: this.params.clientID,
-      scope: this.params.scope,
       response_type: 'code',
     };
   }
@@ -37,19 +35,16 @@ export class GoogleStrategy
     return this.params.authorizationURL;
   }
 
-  parseErrorResponse(body: any, status: number): Error {
-    console.log(body, status);
-    return super.parseErrorResponse(body, status);
-  }
-
-  async getProfile(code: string, redirect_uri: string): Promise<GoogleUser> {
+  async getProfile(code: string, redirect_uri: string): Promise<KakaoUser> {
     const { accessToken } = await this.getOAuthAccessToken(code, { redirect_uri });
     const profile = await this.getUserProfile(accessToken);
+
+    console.log(profile);
     return {
-      provider: Provider.GOOGLE,
+      provider: Provider.KAKAO,
       providerId: profile.id,
-      name: profile.name.givenName,
-      email: profile.emails[0].value,
+      name: profile.displayName,
+      email: profile?.emails?.[0].value,
     };
   }
 
@@ -66,7 +61,7 @@ export class GoogleStrategy
         if (err) {
           return reject(
             new HttpException(
-              `Fail to get GoogleOAuth AccessToken, response: ${err.data}`,
+              `Fail to get KakaoOAuth AccessToken, response: ${err.data}`,
               err.statusCode,
             ),
           );
@@ -76,13 +71,10 @@ export class GoogleStrategy
     });
   }
 
-  private async getUserProfile(accessToken: string): Promise<Profile> {
+  private async getUserProfile(accessToken: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.userProfile(accessToken, (err, profile) => {
-        if (err)
-          return reject(
-            new InternalServerErrorException(`Fail to get Profile, ${err.name} ${err.message}`),
-          );
+        if (err) return reject(`Fail to get Profile, ${err.name} ${err.message}`);
         resolve(profile);
       });
     });

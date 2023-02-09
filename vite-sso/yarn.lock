@@ -423,18 +423,29 @@
     rxjs "^7.8.0"
     ts-proto "^1.139.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.6":
-  version "1.2.6"
-  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.6/b2e676484ece6308769a1d90d2f80e83f10a1a38#b2e676484ece6308769a1d90d2f80e83f10a1a38"
-  integrity sha512-7kjFUw5QITw46AKAxdU6qlK/z6Um3eyHD29oEGSp6LrqXvSleqCplEbJa/F54EqjQnebWKnv1+zXeKwTs8xxMg==
+"@heavyrisem/sso-msa-example-proto@^1.2.14":
+  version "1.2.14"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.14/edbdbf018411b5bfc603eeaf47d8cd58ff7f4309#edbdbf018411b5bfc603eeaf47d8cd58ff7f4309"
+  integrity sha512-wAl581LGlokL/HHGea7a7yUMrkAuGGOxNYCVUWrOiMo0w1iZv0LXdwGnkZE9fjiWDjKLyJWbHbtl8tx0yN49FA==
   dependencies:
-    "@grpc/grpc-js" "^1.8.7"
     "@heavyrisem/sso-msa-example-proto" "1.2.5"
-    "@nestjs/microservices" "^9.3.5"
+    "@heavyrisem/ts-proto" "^1.139.2"
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"
     rxjs "^7.8.0"
-    ts-proto "^1.139.0"
+
+"@heavyrisem/ts-proto@^1.139.2":
+  version "1.139.2"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/ts-proto/1.139.2/6aa84d342519060d933c8ca55a0ba62c830c1482#6aa84d342519060d933c8ca55a0ba62c830c1482"
+  integrity sha512-BJGnOpGhrjXWTRRGzGGUxH7LX0qfLDp6nHneMJUJLEcJJlkataxlEU2x15UA80Tm6ev7oJ/Bm2G/qH5HMDFQYw==
+  dependencies:
+    "@types/object-hash" "^1.3.0"
+    case-anything "^2.1.10"
+    dataloader "^1.4.0"
+    object-hash "^1.3.1"
+    protobufjs "^6.11.3"
+    ts-poet "^6.2.0"
+    ts-proto-descriptors "1.7.1"
 
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"

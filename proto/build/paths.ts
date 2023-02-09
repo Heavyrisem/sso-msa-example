@@ -20,7 +20,7 @@ export const findAllFilesWithExtend = (
   extend: string,
   exclude: string[] = []
 ) => {
-  return getFilePaths(sourcePath, ["node_modules", ...exclude])
+  return getFilePaths(sourcePath, ["node_modules", "shared", ...exclude])
     .filter((filePath) => filePath.endsWith(extend))
     .map((filePath) => filePath.replace(sourcePath, ""))
     .map((filePath) => filePath.replace("/\\g", "/"));

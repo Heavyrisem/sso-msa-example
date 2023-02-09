@@ -3,12 +3,11 @@ import { useCallback } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LoginResponse, RegisterResponse } from 'types/API';
 
-import type { OAuthState } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState, providerToString } from '@heavyrisem/sso-msa-example-proto';
 import { BaseAtom } from '@recoil/atom.interface';
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
 import { getLoggedInUser } from '@utils/api/user';
-import providerToString from '@utils/provider.utils';
 import createQueryParameter from '@utils/url.util';
 
 import useAxiosInstance from './useAxiosInstance';
@@ -50,11 +49,11 @@ const useUser = () => {
     [axiosInstance, setUser],
   );
 
-  const redirectSSO = useCallback(() => {
+  const redirectSSO = useCallback((provider: 'google' | 'github' | 'kakao') => {
     const params = createQueryParameter({
       redirect: `${window.location.origin}/api/auth/refresh`,
       callback: `${window.location.origin}/auth`,
-      provider: 'google',
+      provider,
     });
     // redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
     window.location.href = `http://localhost:3000/api/auth?${params}`;

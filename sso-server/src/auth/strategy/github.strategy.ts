@@ -1,24 +1,33 @@
 import { Provider } from '@heavyrisem/sso-msa-example-proto';
-import { Strategy, Profile } from 'passport-google-oauth20';
+import { Strategy } from 'passport-github';
 
-import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
-import { CustomStrategy, GoogleUser } from '../auth.interface';
+import { CustomStrategy, GithubUser } from '../auth.interface';
+
+interface GithubRawUser {
+  id: string;
+  displayName: string;
+  profileUrl: string;
+  photos: { value: string }[];
+  provider: string;
+  emails: { value: string }[];
+}
 
 @Injectable()
-export class GoogleStrategy
+export class GithubStrategy
   extends PassportStrategy(Strategy, 'google')
-  implements CustomStrategy<GoogleUser>
+  implements CustomStrategy<GithubUser>
 {
   params: Record<string, any>;
 
   constructor() {
     const params = {
-      authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
-      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-      scope: ['email', 'profile'],
+      authorizationURL: 'https://github.com/login/oauth/authorize',
+      clientID: process.env.GITHUB_OAUTH_CLIENT_ID,
+      clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET,
+      scope: ['read:user', 'user:email'],
     };
 
     super(params);
@@ -42,14 +51,15 @@ export class GoogleStrategy
     return super.parseErrorResponse(body, status);
   }
 
-  async getProfile(code: string, redirect_uri: string): Promise<GoogleUser> {
+  async getProfile(code: string, redirect_uri: string): Promise<GithubUser> {
     const { accessToken } = await this.getOAuthAccessToken(code, { redirect_uri });
     const profile = await this.getUserProfile(accessToken);
+
     return {
-      provider: Provider.GOOGLE,
+      provider: Provider.GITHUB,
       providerId: profile.id,
-      name: profile.name.givenName,
-      email: profile.emails[0].value,
+      name: profile.displayName,
+      email: profile?.emails?.[0].value,
     };
   }
 
@@ -66,7 +76,7 @@ export class GoogleStrategy
         if (err) {
           return reject(
             new HttpException(
-              `Fail to get GoogleOAuth AccessToken, response: ${err.data}`,
+              `Fail to get GithubOAuth AccessToken, response: ${err.data}`,
               err.statusCode,
             ),
           );
@@ -76,13 +86,10 @@ export class GoogleStrategy
     });
   }
 
-  private async getUserProfile(accessToken: string): Promise<Profile> {
+  private async getUserProfile(accessToken: string): Promise<GithubRawUser> {
     return new Promise((resolve, reject) => {
       this.userProfile(accessToken, (err, profile) => {
-        if (err)
-          return reject(
-            new InternalServerErrorException(`Fail to get Profile, ${err.name} ${err.message}`),
-          );
+        if (err) return reject(`Fail to get Profile, ${err.name} ${err.message}`);
         resolve(profile);
       });
     });

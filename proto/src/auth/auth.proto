@@ -27,6 +27,8 @@ message TokenPayload {
 
 enum Provider {
     GOOGLE = 0;
+    GITHUB = 1;
+    KAKAO = 2;
 }
 
 message OAuthRequest {

@@ -6,3 +6,4 @@ export const getProtoPath = (protoPath: protos): string => {
 };
 
 export * from "./proto.type";
+export * from "./shared";

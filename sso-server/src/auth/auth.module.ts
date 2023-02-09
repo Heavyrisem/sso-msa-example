@@ -7,7 +7,9 @@ import { UserModule } from '~src/user/user.module';
 import { AuthRpcController } from './auth-rpc.controller';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { GithubStrategy } from './strategy/github.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { KakaoStrategy } from './strategy/kakao.strategy';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { GoogleStrategy } from './strategy/google.strategy';
     }),
     UserModule,
   ],
-  providers: [AuthService, GoogleStrategy],
+  providers: [AuthService, GoogleStrategy, GithubStrategy, KakaoStrategy],
   controllers: [AuthRpcController, AuthController],
 })
 export class AuthModule {}

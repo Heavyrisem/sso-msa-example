@@ -1,7 +1,16 @@
 import { OAuthState, User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
-import { BadRequestException, Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  Query,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 
 import { createQueryParameter } from '~modules/utils/url.util';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
@@ -13,6 +22,8 @@ import { RefreshGuard } from './guards/refresh.guard';
 
 @Controller('/api/auth')
 export class AuthController {
+  logger = new Logger(AuthController.name);
+
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LoggedInGuard)
@@ -24,6 +35,7 @@ export class AuthController {
   @UseGuards(RefreshGuard)
   @Get('/refresh')
   async refresh(@Res() res: Response, @GetUser() user: UserSSO) {
+    this.logger.debug(`Refresh Token For User: ${user.name}`);
     const { accessToken, refreshToken } = await this.authService.generateToken(user);
 
     res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {

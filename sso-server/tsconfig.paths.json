@@ -10,6 +10,9 @@
             ],
             "~src/*": [
                 "src/*"
+            ],
+            "passport-kakao": [
+                "@types/passport-kakao.d.ts"
             ]
         }
     }

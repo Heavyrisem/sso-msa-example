@@ -36,6 +36,7 @@ export class AuthService implements OnModuleInit {
   }
 
   getOAuthProfile(oauthRequest: OAuthRequest): Promise<OAuthProfile> {
+    console.log('getOAuthProfile', oauthRequest);
     return getResultFromObservable(this.authService.getOAuthProfile(oauthRequest));
   }
 
