@@ -15,8 +15,9 @@ export class DateTransformer implements ValueTransformer {
     this.logger.debug(`from ${databaseValue}`);
 
     if (databaseValue) {
-      this.logger.debug(`transformed ${databaseValue.getTime()}`);
-      return databaseValue.getTime();
+      const date = new Date(databaseValue);
+      this.logger.debug(`transformed ${date.getTime()}`);
+      return date.getTime();
     }
     return databaseValue;
   }

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLoginButton } from 'react-social-login-buttons';
 
 import { AxiosError } from 'axios';
 import tw from 'twin.macro';
@@ -15,7 +16,7 @@ interface BasicLoginProps {
   onLoginSuccess?: () => void;
 }
 
-const GoogleLogin: React.FC<BasicLoginProps> = ({ onLoginSuccess }) => {
+const SSOLogin: React.FC<BasicLoginProps> = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const { redirectSSO } = useUser();
 
@@ -49,9 +50,10 @@ const GoogleLogin: React.FC<BasicLoginProps> = ({ onLoginSuccess }) => {
     <DefaultLayout css={[tw`flex flex-col justify-center items-center`]}>
       <div css={[tw`text-4xl font-extrabold mb-8`]}>Login</div>
       <div css={[tw`w-[15rem]`, tw`mx-auto`, tw`flex flex-col justify-center items-center gap-2`]}>
-        <Button type="submit" css={[tw`w-full mt-8`]} onClick={redirectSSO}>
+        <GoogleLoginButton onClick={redirectSSO} />
+        {/* <Button type="submit" css={[tw`w-full mt-8`]} onClick={redirectSSO}>
           로그인
-        </Button>
+        </Button> */}
         {/* <label
           css={[
             tw`flex gap-2`,
@@ -73,4 +75,4 @@ const GoogleLogin: React.FC<BasicLoginProps> = ({ onLoginSuccess }) => {
   );
 };
 
-export default GoogleLogin;
+export default SSOLogin;

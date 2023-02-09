@@ -11,7 +11,7 @@ export class User extends CoreEntity implements ProtoUser {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   providerId: string;
 
   @Column()

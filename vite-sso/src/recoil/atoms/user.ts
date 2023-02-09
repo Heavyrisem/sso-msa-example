@@ -1,16 +1,17 @@
 import { atom } from 'recoil';
-import { Role } from 'types/role';
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  roleGroup: {
-    name: string;
-    description: string;
-    roles: Role[];
-  };
-  twoFactorAuthenticated: boolean;
+import type { User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
+
+export interface User extends UserSSO {
+  // id: number;
+  // name: string;
+  // email: string;
+  // roleGroup: {
+  //   name: string;
+  //   description: string;
+  //   roles: Role[];
+  // };
+  // twoFactorAuthenticated: boolean;
 }
 
 const userState = atom<User | null>({

@@ -16,7 +16,7 @@ export class RefreshGuard implements CanActivate {
     if (!refreshToken) throw new UnauthorizedException('No Auth Token');
 
     const { value: isValid } = await this.authService.verifyToken(refreshToken);
-    if (!isValid) throw new UnauthorizedException('Token Expired');
+    if (!isValid) throw new UnauthorizedException('TokenExpired');
 
     return true;
   }

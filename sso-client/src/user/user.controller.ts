@@ -11,6 +11,12 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   @Get('/me')
   async me(@GetUser() user: UserSSO) {
-    return user;
+    return { result: user };
+  }
+
+  @UseGuards(LoggedInGuard)
+  @Get('/test')
+  async test(@GetUser() user: UserSSO) {
+    return `${user.name}, You Are Authenticated`;
   }
 }

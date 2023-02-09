@@ -70,4 +70,9 @@ export class AuthController {
     return res.redirect(redirect);
     // localhost:3000/auth?redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
   }
+
+  @Get('/logout')
+  async logout(@Res() res: Response) {
+    return res.cookie(REFRESH_TOKEN_KEY, '', { httpOnly: true }).status(200).send();
+  }
 }

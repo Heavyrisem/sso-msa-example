@@ -1,6 +1,6 @@
 import { selector } from 'recoil';
 
-import { TokenPayload } from '@heavyrisem/sso-msa-example-proto';
+import type { TokenPayload } from '@heavyrisem/sso-msa-example-proto';
 import authorizationState from '@recoil/atoms/authorization';
 
 const jwtSelector = selector<TokenPayload | null>({

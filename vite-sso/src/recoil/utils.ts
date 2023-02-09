@@ -12,9 +12,10 @@ export const localStorageEffect =
     }
 
     onSet((newValue, _, isReset) => {
-      const { saveStorage } = newValue;
+      // const { saveStorage } = newValue;
+      const saveStorage = true;
       const isExist = Boolean(localStorage.getItem(key));
-      if (saveStorage === false) return;
+      // if (saveStorage === false) return;
       if (saveStorage === undefined && isExist === false) return;
 
       if (isReset) {

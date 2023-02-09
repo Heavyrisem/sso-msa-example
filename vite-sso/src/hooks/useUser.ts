@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LoginResponse, RegisterResponse } from 'types/API';
 
-// import type { OAuthState } from '@heavyrisem/sso-msa-example-proto';
+import type { OAuthState } from '@heavyrisem/sso-msa-example-proto';
 import { BaseAtom } from '@recoil/atom.interface';
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
@@ -43,6 +43,8 @@ const useUser = () => {
       const { result: user } = await getLoggedInUser(axiosInstance, { headers }).catch(() => ({
         result: null,
       }));
+
+      console.log('Setting user', user);
       setUser(user);
     },
     [axiosInstance, setUser],
@@ -58,21 +60,24 @@ const useUser = () => {
     window.location.href = `http://localhost:3000/api/auth?${params}`;
   }, []);
 
-  const fetchRefreshToken = useCallback(async () => {
+  const ssoLogin = useCallback(async () => {
     const query = new URLSearchParams(window.location.search);
     const rawState = query.get('state');
     if (!rawState) throw new Error('Invalid state');
-    const state = JSON.parse(rawState);
+    const state = JSON.parse(rawState) as OAuthState;
 
     const request = {
       url: `/api/auth/callback/${providerToString(state.provider)}${window.location.search}`,
       method: 'GET',
     };
-    console.log('request', request);
-    const result = await axiosInstance(request);
 
-    console.log(result);
-  }, [axiosInstance]);
+    const { accessToken: token } = await axiosInstance<LoginResponse>(request).then(
+      (res) => res.data,
+    );
+    console.log(token);
+    setAuthorization({ token });
+    fetchUser(token);
+  }, [axiosInstance, fetchUser, setAuthorization]);
 
   const login = useCallback(
     async ({ saveStorage, ...data }: BasicLoginForm & BaseAtom) => {
@@ -90,9 +95,10 @@ const useUser = () => {
   );
 
   const logout = useCallback(() => {
+    axiosInstance.get('/api/auth/logout');
     resetAuthorization();
     setUser(null);
-  }, [resetAuthorization, setUser]);
+  }, [axiosInstance, resetAuthorization, setUser]);
 
   const twoFactorLogin = useCallback(
     async (data: TwoFactorLoginForm) => {
@@ -124,7 +130,15 @@ const useUser = () => {
     [axiosInstance, fetchUser, setAuthorization],
   );
 
-  return { login, logout, twoFactorLogin, register, fetchUser, redirectSSO, fetchRefreshToken };
+  return {
+    login,
+    logout,
+    twoFactorLogin,
+    register,
+    fetchUser,
+    redirectSSO,
+    ssoLogin,
+  };
 };
 
 export default useUser;

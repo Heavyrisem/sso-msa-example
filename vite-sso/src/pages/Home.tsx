@@ -26,7 +26,7 @@ const Home: React.FC = () => {
   const handleTestClick = useCallback(async () => {
     setMessage(undefined);
     const response = await axiosInstance
-      .post('/api/test')
+      .get('/api/user/test')
       .then((res) => res.data)
       .catch((err) => JSON.stringify((err as AxiosError).response?.data));
     setMessage(response);
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!jwt) return;
-      const expire = jwt.exp.getTime() - Date.now();
+      const expire = new Date(jwt.exp).getTime() - Date.now();
       setExpireIn(expire / 1000);
     }, 100);
 

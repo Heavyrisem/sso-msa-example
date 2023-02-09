@@ -13,12 +13,12 @@ interface PrivateRouterProps {
 
 const PrivateRouter: React.FC<PrivateRouterProps> = ({ children, roles }) => {
   const user = useRecoilValue(userState);
+  console.log('user', user);
+  if (!user || !user.id) return <Navigate to="/login" />;
 
-  if (user === null || !user.twoFactorAuthenticated) return <Navigate to="/login" />;
-
-  const userRoles = user.roleGroup.roles.map((role) => role.name);
-  const userHasRoles = roles?.every((requireRole) => userRoles.includes(requireRole));
-  if (roles && userHasRoles === false) return <Navigate to="/" />;
+  // const userRoles = user.roleGroup.roles.map((role) => role.name);
+  // const userHasRoles = roles?.every((requireRole) => userRoles.includes(requireRole));
+  // if (roles && userHasRoles === false) return <Navigate to="/" />;
 
   return children;
 };

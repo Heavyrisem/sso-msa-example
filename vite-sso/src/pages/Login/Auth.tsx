@@ -1,15 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import useUser from '@hooks/useUser';
 
 const Auth: React.FC = () => {
-  const { fetchRefreshToken } = useUser();
+  const { ssoLogin } = useUser();
 
   useEffect(() => {
-    console.log(window.location.search);
+    console.log('Rendering Auth');
 
-    fetchRefreshToken();
-  }, [fetchRefreshToken]);
+    ssoLogin().then(() => {
+      window.location.href = '/';
+    });
+  }, [ssoLogin]);
 
   return <div>Auth</div>;
 };
