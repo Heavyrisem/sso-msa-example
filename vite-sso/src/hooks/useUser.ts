@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LoginResponse, RegisterResponse } from 'types/API';
 
-import { OAuthState, providerToString } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
 import { BaseAtom } from '@recoil/atom.interface';
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
@@ -66,7 +66,7 @@ const useUser = () => {
     const state = JSON.parse(rawState) as OAuthState;
 
     const request = {
-      url: `/api/auth/callback/${providerToString(state.provider)}${window.location.search}`,
+      url: `/api/auth/callback/${Shared.providerToString(state.provider)}${window.location.search}`,
       method: 'GET',
     };
 

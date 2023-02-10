@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
-import type { User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
+import type { Shared } from '@heavyrisem/sso-msa-example-proto';
 
-export interface User extends UserSSO {
+export interface User extends Shared.UserSSO {
   // id: number;
   // name: string;
   // email: string;

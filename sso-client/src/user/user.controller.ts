@@ -1,4 +1,4 @@
-import { User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
+import { Shared } from '@heavyrisem/sso-msa-example-proto';
 
 import { Controller, Get, UseGuards } from '@nestjs/common';
 
@@ -10,13 +10,13 @@ import { GetUser } from './decorator/get-user.decorator';
 export class UserController {
   @UseGuards(LoggedInGuard)
   @Get('/me')
-  async me(@GetUser() user: UserSSO) {
+  async me(@GetUser() user: Shared.UserSSO) {
     return { result: user };
   }
 
   @UseGuards(LoggedInGuard)
   @Get('/test')
-  async test(@GetUser() user: UserSSO) {
+  async test(@GetUser() user: Shared.UserSSO) {
     return `${user.name}, You Are Authenticated`;
   }
 }

@@ -1,4 +1,4 @@
-import { Provider, User as ProtoUser } from '@heavyrisem/sso-msa-example-proto';
+import { Provider, Shared } from '@heavyrisem/sso-msa-example-proto';
 import { Column, Entity } from 'typeorm';
 
 import { CoreEntity } from '~src/modules/database/core.entity';
@@ -6,9 +6,9 @@ import { CoreEntity } from '~src/modules/database/core.entity';
 import { ProviderTransformer } from './provider.transformer';
 
 @Entity()
-export class User extends CoreEntity implements ProtoUser {
-  @Column()
-  email: string;
+export class User extends CoreEntity implements Shared.UserSSO {
+  @Column({ nullable: true })
+  email: string | null;
 
   @Column()
   name: string;

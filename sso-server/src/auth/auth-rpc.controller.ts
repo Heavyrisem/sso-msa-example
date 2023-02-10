@@ -8,6 +8,7 @@ import {
   AUTH_SERVICE_NAME,
 } from '@heavyrisem/sso-msa-example-proto';
 
+import { Body, UsePipes } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 
 import { RpcController } from '~modules/common/rpc-controller.decorator';

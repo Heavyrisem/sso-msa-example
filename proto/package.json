@@ -1,6 +1,6 @@
 {
   "name": "@heavyrisem/sso-msa-example-proto",
-  "version": "1.2.15",
+  "version": "1.2.19",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,13 +11,12 @@
     "prebuild": "rimraf dist"
   },
   "dependencies": {
-    "@heavyrisem/sso-msa-example-proto": "1.2.5",
-    "@heavyrisem/ts-proto": "^1.139.2",
     "copyfiles": "^2.4.1",
     "cross-spawn": "^7.0.3",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
+    "@heavyrisem/ts-proto": "^1.139.2",
     "@types/cross-spawn": "^6.0.2",
     "@types/node": "^18.11.18",
     "rimraf": "^4.0.5",

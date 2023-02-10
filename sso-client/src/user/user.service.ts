@@ -1,4 +1,5 @@
 import {
+  Shared,
   User,
   UserServiceClient,
   USER_PACKAGE_NAME,
@@ -21,17 +22,18 @@ export class UserService implements OnModuleInit {
     this.userService = this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
   }
 
-  findUserById(id: User['providerId']): Promise<User> {
+  findUserById(id: User['providerId']): Promise<Shared.UserSSO> {
     return getResultFromObservable(
       this.userService.findUserById({ value: id }).pipe(map(this.transformUser)),
     );
   }
 
-  private transformUser(user: User): User {
+  private transformUser(user: Shared.UserSSO): Shared.UserSSO {
     return {
       ...user,
+      email: user.email || null,
       createdAt: +`${user.createdAt}`,
-      deletedAt: +`${user.deletedAt}`,
+      deletedAt: user.deletedAt ? +`${user.deletedAt}` : null,
     };
   }
 }

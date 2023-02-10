@@ -1,7 +1,7 @@
-import { OAuthProfile, Provider } from '@heavyrisem/sso-msa-example-proto';
-import { IsEnum, IsString } from 'class-validator';
+import { Provider, Shared } from '@heavyrisem/sso-msa-example-proto';
+import { IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
 
-export class OAuthProfileDto implements OAuthProfile {
+export class OAuthProfileDto implements Shared.OAuthProfile {
   @IsString()
   name: string;
 
@@ -9,7 +9,8 @@ export class OAuthProfileDto implements OAuthProfile {
   providerId: string;
 
   @IsString()
-  email: string;
+  @ValidateIf((_, value) => value !== null)
+  email: string | null = null;
 
   @IsEnum(Provider)
   provider: Provider;

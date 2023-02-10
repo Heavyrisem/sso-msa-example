@@ -20,10 +20,3 @@ export declare class CustomStrategy<T> extends Strategy {
   getAuthorizationURL(): string;
   getProfile(code: string, redirect_uri: string): Promise<T>;
 }
-
-// export declare class BaseStrategy<T, U = Strategy> implements CustomStrategy<T>, U {
-//   params: Record<string, any>;
-//   getParameter(): Record<string, any>;
-//   getAuthorizationURL(): string;
-//   getProfile(code: string, redirect_uri: string): Promise<T>;
-// }

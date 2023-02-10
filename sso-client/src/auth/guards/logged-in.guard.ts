@@ -1,4 +1,4 @@
-import { User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
+import { Shared } from '@heavyrisem/sso-msa-example-proto';
 import { Request } from 'express';
 
 import {
@@ -18,7 +18,7 @@ export class LoggedInGuard implements CanActivate {
   constructor(private readonly authService: AuthService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: Request & { user?: UserSSO } = context.switchToHttp().getRequest();
+    const request: Request & { user?: Shared.UserSSO } = context.switchToHttp().getRequest();
     const { accessToken } = this.authService.getTokenFromRequest(request);
 
     if (!accessToken) throw new UnauthorizedException('No Auth Token');

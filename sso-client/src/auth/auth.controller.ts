@@ -1,4 +1,4 @@
-import { OAuthState, User as UserSSO } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
 import {
@@ -28,13 +28,13 @@ export class AuthController {
 
   @UseGuards(LoggedInGuard)
   @Get('/test')
-  async test(@GetUser() user: UserSSO) {
+  async test(@GetUser() user: Shared.UserSSO) {
     return user;
   }
 
   @UseGuards(RefreshGuard)
   @Get('/refresh')
-  async refresh(@Res() res: Response, @GetUser() user: UserSSO) {
+  async refresh(@Res() res: Response, @GetUser() user: Shared.UserSSO) {
     this.logger.debug(`Refresh Token For User: ${user.name}`);
     const { accessToken, refreshToken } = await this.authService.generateToken(user);
 

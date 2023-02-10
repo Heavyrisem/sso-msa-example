@@ -3,10 +3,10 @@ import {
   AUTH_PACKAGE_NAME,
   AUTH_SERVICE_NAME,
   BoolValue,
-  OAuthProfile,
   OAuthRequest,
   Token,
   TokenPayload,
+  Shared,
 } from '@heavyrisem/sso-msa-example-proto';
 import { Request } from 'express';
 
@@ -27,7 +27,7 @@ export class AuthService implements OnModuleInit {
     this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
-  generateToken(profile: OAuthProfile): Promise<Token> {
+  generateToken(profile: Shared.OAuthProfile): Promise<Token> {
     return getResultFromObservable(this.authService.generateToken(profile));
   }
 
@@ -35,7 +35,7 @@ export class AuthService implements OnModuleInit {
     return getResultFromObservable(this.authService.verifyToken({ value: token }));
   }
 
-  getOAuthProfile(oauthRequest: OAuthRequest): Promise<OAuthProfile> {
+  getOAuthProfile(oauthRequest: OAuthRequest): Promise<Shared.OAuthProfile> {
     console.log('getOAuthProfile', oauthRequest);
     return getResultFromObservable(this.authService.getOAuthProfile(oauthRequest));
   }

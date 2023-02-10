@@ -1,4 +1,4 @@
-import { OAuthState, stringToProvider } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
 import { Response } from 'express';
 
 import { BadRequestException, Controller, Get, Param, Query, Res } from '@nestjs/common';
@@ -53,7 +53,7 @@ export class AuthController {
     @Param('provider') providerStr: string,
   ) {
     if (!callback || !redirect || !providerStr) throw new BadRequestException('some param is null');
-    const provider = stringToProvider(providerStr);
+    const provider = Shared.stringToProvider(providerStr);
 
     const params = createQueryParameter({
       state: {

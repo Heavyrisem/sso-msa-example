@@ -20,7 +20,7 @@ module.exports = {
         project: './tsconfig.json',
         tsconfigRootDir: __dirname,
     },
-    ignorePatterns: ['.eslintrc.js', 'vite.config.ts', 'tailwind.config.js', 'postcss.config.js', 'prettier.config.js'],
+    ignorePatterns: ['node_modules', '.eslintrc.js', 'vite.config.ts', 'tailwind.config.js', 'postcss.config.js', 'prettier.config.js'],
     plugins: ['react', '@typescript-eslint', 'eslint-plugin-import-helpers'],
     rules: {
         'jsx-a11y/click-events-have-key-events': 'off',

@@ -30,6 +30,7 @@ export class HttpLoggerInterceptor implements NestInterceptor {
         this.logger.error(
           `${method} ${path} ==> ${err?.statusCode || err?.status || err?.code} ${err.message}`,
         );
+        this.logger.verbose(err?.stack);
         return throwError(() => err);
       }),
     );

@@ -39,7 +39,6 @@ export class KakaoStrategy
     const { accessToken } = await this.getOAuthAccessToken(code, { redirect_uri });
     const profile = await this.getUserProfile(accessToken);
 
-    console.log(profile);
     return {
       provider: Provider.KAKAO,
       providerId: profile.id,
@@ -61,8 +60,8 @@ export class KakaoStrategy
         if (err) {
           return reject(
             new HttpException(
-              `Fail to get KakaoOAuth AccessToken, response: ${err.data}`,
-              err.statusCode,
+              `Fail to get KakaoOAuth AccessToken, response: ${err?.data}`,
+              err?.statusCode,
             ),
           );
         }

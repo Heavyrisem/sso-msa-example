@@ -1,6 +1,6 @@
 import {
   Provider,
-  OAuthProfile,
+  Shared,
   Token,
   BoolValue,
   StringValue,
@@ -30,7 +30,7 @@ export class AuthService {
   ) {}
 
   async getProfile(code: string, redirectUri: string, provider: Provider): Promise<User> {
-    let profile: OAuthProfile;
+    let profile: Shared.OAuthProfile;
 
     switch (provider) {
       case Provider.GOOGLE:
@@ -75,7 +75,7 @@ export class AuthService {
     }
   }
 
-  generateToken(profile: OAuthProfile): Token {
+  generateToken(profile: Shared.OAuthProfile): Token {
     const payload = this.getPayloadFromProfile(profile);
     delete payload.exp;
     delete payload.iat;
@@ -96,7 +96,7 @@ export class AuthService {
     }
   }
 
-  private getPayloadFromProfile(profile: OAuthProfile): TokenPayload {
+  private getPayloadFromProfile(profile: Shared.OAuthProfile): TokenPayload {
     return {
       id: profile.providerId,
       name: profile.name,
