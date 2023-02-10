@@ -24,7 +24,7 @@ export class UserService implements OnModuleInit {
 
   findUserById(id: User['providerId']): Promise<Shared.UserSSO> {
     return getResultFromObservable(
-      this.userService.findUserById({ value: id }).pipe(map(this.transformUser)),
+      this.userService.findUserById({ value: id.toString() }).pipe(map(this.transformUser)),
     );
   }
 

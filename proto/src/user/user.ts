@@ -7,7 +7,8 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  providerId: string;
+  profileImage: string;
+  providerId: number;
   provider: Provider;
   createdAt: number;
   deletedAt: number;

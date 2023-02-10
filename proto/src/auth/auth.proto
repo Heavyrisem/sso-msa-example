@@ -16,7 +16,7 @@ message Token {
 }
 
 message TokenPayload {
-    string id = 1;
+    uint64 id = 1;
     string name = 2;
     string email = 3;
     Provider provider = 4;
@@ -40,7 +40,7 @@ message OAuthRequest {
 
 message OAuthProfile {
   Provider provider = 1;
-  string providerId = 2;
+  uint64 providerId = 2;
   string email = 3;
   string name = 4;
 }

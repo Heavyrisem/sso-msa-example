@@ -13,8 +13,9 @@ message User {
     int32 id = 1;
     string name = 2;
     string email = 3;
-    string providerId = 4;
-    auth.Provider provider = 5;
-    uint64 createdAt = 6;
-    uint64 deletedAt = 7;
+    string profileImage = 4;
+    uint64 providerId = 5;
+    auth.Provider provider = 6;
+    uint64 createdAt = 7;
+    uint64 deletedAt = 8;
 }

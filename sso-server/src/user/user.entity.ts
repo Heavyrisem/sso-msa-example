@@ -1,5 +1,5 @@
 import { Provider, Shared } from '@heavyrisem/sso-msa-example-proto';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 import { CoreEntity } from '~src/modules/database/core.entity';
 
@@ -13,8 +13,12 @@ export class User extends CoreEntity implements Shared.UserSSO {
   @Column()
   name: string;
 
-  @Column({ unique: true })
-  providerId: string;
+  @Column()
+  profileImage: string;
+
+  @Index()
+  @Column({ unique: true }) // TODO: make number
+  providerId: number;
 
   @Column({ type: 'varchar', transformer: new ProviderTransformer() })
   provider: Provider;
