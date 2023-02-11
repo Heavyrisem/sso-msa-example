@@ -6,6 +6,7 @@ import tw from 'twin.macro';
 
 import Button from '@components/Button';
 import DefaultLayout from '@components/Layouts/DefaultLayout';
+import { css } from '@emotion/react';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import useUser from '@hooks/useUser';
 import authorizationState from '@recoil/atoms/authorization';
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
       if (!jwt) return;
       const expire = new Date(jwt.exp).getTime() - Date.now();
       setExpireIn(expire / 1000);
-    }, 100);
+    }, 500);
 
     return () => {
       clearInterval(interval);
@@ -56,9 +57,16 @@ const Home: React.FC = () => {
           Logout
         </Button>
         <div>UserDetail</div>
+        {user?.profileImage && (
+          <div css={[tw`w-20 h-20 overflow-hidden rounded-full`]}>
+            <img src={user.profileImage} alt="profile" />
+          </div>
+        )}
         <div css={[tw`text-sm text-zinc-200`]}>
-          <pre>{JSON.stringify(user, null, 4)}</pre>
-          <span>{expireIn > 0 ? `${expireIn} 초 후 토큰 만료` : '토큰 만료됨'}</span>
+          <pre css={[tw`break-all whitespace-pre-wrap overflow-hidden`]}>
+            {JSON.stringify(user, null, 4)}
+          </pre>
+          <span>{expireIn > 0 ? `${expireIn} 초 후 Access 토큰 만료` : '토큰 만료됨'}</span>
         </div>
         <div css={[tw`break-all text-xs text-zinc-600`]}>{authorization.token}</div>
       </div>

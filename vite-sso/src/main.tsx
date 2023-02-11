@@ -9,9 +9,9 @@ import App from './App';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
   <RecoilRoot>
-    <Suspense fallback={<span>LOADING</span>}>
-      <App />
-    </Suspense>
+    {/* <Suspense fallback={<span>LOADING</span>}> */}
+    <App />
+    {/* </Suspense> */}
   </RecoilRoot>,
   // </React.StrictMode>,
 );

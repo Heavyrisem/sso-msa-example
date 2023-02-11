@@ -73,7 +73,6 @@ const useUser = () => {
     const { accessToken: token } = await axiosInstance<LoginResponse>(request).then(
       (res) => res.data,
     );
-    console.log(token);
     setAuthorization({ token });
     fetchUser(token);
   }, [axiosInstance, fetchUser, setAuthorization]);

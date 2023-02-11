@@ -8,13 +8,12 @@ import {
   AUTH_SERVICE_NAME,
 } from '@heavyrisem/sso-msa-example-proto';
 
-import { Body, UsePipes } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 
 import { RpcController } from '~modules/common/rpc-controller.decorator';
 
 import { AuthService } from './auth.service';
-import { OAuthProfileDto } from './dto/create-token.dto';
+import { CreateTokenDto } from './dto/create-token.dto';
 import { OAuthRequestDto } from './dto/oauth-request.dto';
 
 @RpcController(AUTH_PACKAGE_NAME)
@@ -27,7 +26,7 @@ export class AuthRpcController implements AuthServiceController {
   }
 
   @GrpcMethod(AUTH_SERVICE_NAME)
-  generateToken(profile: OAuthProfileDto): Token {
+  generateToken(profile: CreateTokenDto): Token {
     return this.authService.generateToken(profile);
   }
 

@@ -11,14 +11,17 @@ export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
   async findUserByProviderId(providerId: string): Promise<User> {
-    return this.userRepository.findOne({ where: { providerId } });
+    return this.userRepository.findOne({ where: { providerId: providerId } });
   }
 
-  async findUserOrSave(user: User | OAuthProfile): Promise<User> {
+  async findUserOrSave(user: OAuthProfile): Promise<User> {
     const existUser = await this.userRepository.findOne({ where: { providerId: user.providerId } });
-    if (existUser) return existUser;
+    if (existUser) {
+      const mergedUesr = this.userRepository.merge(existUser, user);
+      return this.userRepository.save(mergedUesr);
+    }
 
     const newUser = this.userRepository.create(user);
-    return await this.userRepository.save(newUser);
+    return this.userRepository.save(newUser);
   }
 }

@@ -415,10 +415,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@heavyrisem/sso-msa-example-proto@^1.2.20":
-  version "1.2.20"
-  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.20/d1087e3145ad392786aa3bb0507dc7fe4d34d121#d1087e3145ad392786aa3bb0507dc7fe4d34d121"
-  integrity sha512-6Lzq4Bqq0LknNLHrmZLpbOnzOgqSUSwVetBcucP1lavcwZxQ3kUDNOqKCQ4+pP9miGZBMKqHWzIEL9LW9htoTA==
+"@heavyrisem/sso-msa-example-proto@^1.2.24":
+  version "1.2.24"
+  resolved "https://npm.pkg.github.com/download/@heavyrisem/sso-msa-example-proto/1.2.24/ea1ab7356fffe8abe425913c0ec1889f2ef5c5c6#ea1ab7356fffe8abe425913c0ec1889f2ef5c5c6"
+  integrity sha512-duES7ehFkKxF9FzgGlXlz1CjSRLvVBaBD9VgU/LmWvgJaVcMiuHqXv3auREDE//EVzZOWE+af2GTaaHw3+5Dng==
   dependencies:
     copyfiles "^2.4.1"
     cross-spawn "^7.0.3"

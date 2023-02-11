@@ -38,12 +38,13 @@ export class KakaoStrategy
   async getProfile(code: string, redirect_uri: string): Promise<KakaoUser> {
     const { accessToken } = await this.getOAuthAccessToken(code, { redirect_uri });
     const profile = await this.getUserProfile(accessToken);
-
+    console.log(profile);
     return {
       provider: Provider.KAKAO,
       providerId: profile.id,
       name: profile.displayName,
-      email: profile?.emails?.[0].value,
+      email: profile?._json?.kakao_account?.email ?? null,
+      profileImage: profile?._json?.properties?.profile_image ?? null,
     };
   }
 

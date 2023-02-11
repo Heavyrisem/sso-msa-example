@@ -1,10 +1,11 @@
-import { Provider, OAuthRequest } from '@heavyrisem/sso-msa-example-proto';
-import { IsEnum, IsString } from 'class-validator';
+import { OAuthRequest } from '@heavyrisem/sso-msa-example-proto';
+import { IsString } from 'class-validator';
 
-export class OAuthRequestDto implements OAuthRequest {
-  @IsEnum(Provider)
-  provider: Provider;
+import { PickType } from '@nestjs/mapped-types';
 
+import { User } from '~src/user/user.entity';
+
+export class OAuthRequestDto extends PickType(User, ['provider'] as const) implements OAuthRequest {
   @IsString()
   code: string;
 

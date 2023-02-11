@@ -52,7 +52,7 @@ export class AuthController {
     @Query('redirect') redirect: string,
     @Param('provider') providerStr: string,
   ) {
-    if (!callback || !redirect || !providerStr) throw new BadRequestException('some param is null');
+    if (!callback ?? !redirect ?? !providerStr) throw new BadRequestException('some param is null');
     const provider = Shared.stringToProvider(providerStr);
 
     const params = createQueryParameter({

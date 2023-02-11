@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
+import useEffectOnce from '@hooks/useEffectOnce';
 import useUser from '@hooks/useUser';
 
 const Auth: React.FC = () => {
   const { ssoLogin } = useUser();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     console.log('Rendering Auth');
 
     ssoLogin().then(() => {
       window.location.href = '/';
     });
-  }, [ssoLogin]);
+  });
 
   return <div>Auth</div>;
 };

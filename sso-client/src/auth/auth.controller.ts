@@ -1,4 +1,5 @@
 import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
+import { stringToProvider } from '@heavyrisem/sso-msa-example-proto/dist/shared';
 import { Response } from 'express';
 
 import {
@@ -6,7 +7,6 @@ import {
   Controller,
   Get,
   Logger,
-  Post,
   Query,
   Res,
   UseGuards,
@@ -35,7 +35,7 @@ export class AuthController {
   @UseGuards(RefreshGuard)
   @Get('/refresh')
   async refresh(@Res() res: Response, @GetUser() user: Shared.UserSSO) {
-    this.logger.debug(`Refresh Token For User: ${user.name}`);
+    this.logger.debug(`Refresh Token For User: ${user}`);
     const { accessToken, refreshToken } = await this.authService.generateToken(user);
 
     res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {
@@ -66,6 +66,7 @@ export class AuthController {
     if (!state) throw new BadRequestException('State is empty');
 
     const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
+    console.log(provider);
     const profile = await this.authService.getOAuthProfile({
       code,
       redirect,
@@ -73,7 +74,7 @@ export class AuthController {
       provider,
     });
     // Cookie, Session 중 원하는 방식 선택
-
+    console.log(profile);
     const token = await this.authService.generateToken(profile);
 
     res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {

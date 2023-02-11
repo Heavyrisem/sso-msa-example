@@ -1,17 +1,13 @@
-import { Provider, Shared } from '@heavyrisem/sso-msa-example-proto';
-import { IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
+import { Shared } from '@heavyrisem/sso-msa-example-proto';
 
-export class OAuthProfileDto implements Shared.OAuthProfile {
-  @IsString()
-  name: string;
+import { PickType } from '@nestjs/mapped-types';
 
-  @IsString()
-  providerId: string;
+import { User } from '~src/user/user.entity';
 
-  @IsString()
-  @ValidateIf((_, value) => value !== null)
-  email: string | null = null;
-
-  @IsEnum(Provider)
-  provider: Provider;
+export class CreateTokenDto
+  extends PickType(User, ['name', 'providerId', 'email', 'provider', 'profileImage'] as const)
+  implements Shared.OAuthProfile
+{
+  email: User['email'] | null = null;
+  profileImage: User['profileImage'] | null = null;
 }

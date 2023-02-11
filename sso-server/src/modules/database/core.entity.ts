@@ -1,6 +1,6 @@
 import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-import { DateTransformer } from './date.transformer';
+import { DateTransformer } from './transformer/date.transformer';
 
 export class CoreEntity {
   @PrimaryGeneratedColumn()

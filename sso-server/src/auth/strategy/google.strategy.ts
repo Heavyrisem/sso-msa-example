@@ -49,7 +49,8 @@ export class GoogleStrategy
       provider: Provider.GOOGLE,
       providerId: profile.id,
       name: profile.name.givenName,
-      email: profile.emails[0].value,
+      email: profile?.emails?.[0]?.value ?? null,
+      profileImage: profile?.photos?.[0]?.value ?? null,
     };
   }
 
