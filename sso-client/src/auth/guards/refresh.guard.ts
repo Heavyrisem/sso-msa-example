@@ -13,7 +13,7 @@ export class RefreshGuard implements CanActivate {
     const request: Request & { user?: Shared.UserSSO } = context.switchToHttp().getRequest();
     const { refreshToken } = this.authService.getTokenFromRequest(request);
 
-    if (!refreshToken) throw new UnauthorizedException('No Auth Token');
+    if (!refreshToken) throw new UnauthorizedException('No Refresh Token');
 
     const { value: isValid } = await this.authService.verifyToken(refreshToken);
     if (!isValid) throw new UnauthorizedException('TokenExpired');

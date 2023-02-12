@@ -1,4 +1,4 @@
-import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
+import { OAuthState, Shared, Token } from '@heavyrisem/sso-msa-example-proto';
 import { stringToProvider } from '@heavyrisem/sso-msa-example-proto/dist/shared';
 import { Response } from 'express';
 
@@ -48,41 +48,54 @@ export class AuthController {
   redirectToSSO(
     @Res() res: Response,
     @Query('redirect') redirect?: string,
-    @Query('callback') callback?: string,
     @Query('provider') provider?: string,
   ) {
-    if (!redirect || !callback || !provider) throw new BadRequestException('Some params is empty');
-    const params = createQueryParameter({ redirect, callback });
+    if (!redirect || !provider) throw new BadRequestException('Some params is empty');
+    const params = createQueryParameter({ redirect });
     return res.redirect(`${process.env.SSO_URL}/${provider}?${params}`);
   }
 
-  @Get('/callback/:provider')
-  async oauthCallback(
+  @Get('/setRefresh')
+  setRefresh(
     @Res() res: Response,
-    @Query('code') code?: string,
-    @Query('state') state?: string,
+    @Query('refreshToken') refreshToken?: string,
+    @Query('redirect') redirect?: string,
   ) {
-    if (!code) throw new BadRequestException('Code is empty');
-    if (!state) throw new BadRequestException('State is empty');
+    if (!refreshToken || !redirect) throw new BadRequestException('Some params is empty');
 
-    const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
-    console.log(provider);
-    const profile = await this.authService.getOAuthProfile({
-      code,
-      redirect,
-      callback,
-      provider,
-    });
-    // Cookie, Session 중 원하는 방식 선택
-    console.log(profile);
-    const token = await this.authService.generateToken(profile);
-
-    res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {
+    res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
     });
-    return res.redirect(redirect);
-    // localhost:3000/auth?redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
+    res.redirect(redirect);
   }
+
+  // @Get('/callback/:provider')
+  // async oauthCallback(
+  //   @Res() res: Response,
+  //   @Query('code') code?: string,
+  //   @Query('state') state?: string,
+  // ) {
+  //   if (!code) throw new BadRequestException('Code is empty');
+  //   if (!state) throw new BadRequestException('State is empty');
+
+  //   const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
+  //   console.log(provider);
+  //   const profile = await this.authService.getOAuthProfile({
+  //     code,
+  //     redirect,
+  //     callback,
+  //     provider,
+  //   });
+  //   // Cookie, Session 중 원하는 방식 선택
+  //   console.log(profile);
+  //   const token = await this.authService.generateToken(profile);
+
+  //   res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {
+  //     httpOnly: true,
+  //   });
+  //   return res.redirect(redirect);
+  //   // localhost:3000/auth?redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
+  // }
 
   @Get('/logout')
   async logout(@Res() res: Response) {

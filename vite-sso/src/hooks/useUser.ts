@@ -51,12 +51,12 @@ const useUser = () => {
 
   const redirectSSO = useCallback((provider: 'google' | 'github' | 'kakao') => {
     const params = createQueryParameter({
-      redirect: `${window.location.origin}/api/auth/refresh`,
-      callback: `${window.location.origin}/auth`,
+      redirect: `${window.location.origin}/api/auth/setRefresh?redirect=${window.location.origin}`,
       provider,
     });
     // redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
     window.location.href = `${window.location.origin}/api/auth?${params}`;
+    // 사실 그냥 위에서 바로 SSO 로 보내도 되는데 프론트에 SSO URL 을 저장하기 싫어서 Client Server 한번 거치게 해둠
   }, []);
 
   const ssoLogin = useCallback(async () => {

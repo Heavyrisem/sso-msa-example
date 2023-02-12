@@ -19,7 +19,7 @@ import { UserService } from './user.service';
         name: USER_PACKAGE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: process.env.MSA_AUTH_HOST,
+          url: process.env.MSA_GRPC_AUTH_HOST,
           package: USER_PACKAGE_NAME,
           protoPath: [getProtoPath('user/user.proto'), getProtoPath('auth/auth.proto')],
         },

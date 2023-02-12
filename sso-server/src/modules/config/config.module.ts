@@ -17,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
         MSA_PORT: Joi.string().required(),
+        SSO_HOST: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
         GOOGLE_OAUTH_CLIENT_SECRET: Joi.string().required(),

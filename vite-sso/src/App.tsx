@@ -17,18 +17,15 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { fetchUser } = useUser();
-  const jwt = useRecoilValue(jwtSelector);
 
   useEffectOnce(() => {
-    if (jwt) {
-      fetchUser().then(() =>
+    fetchUser()
+      .then(() =>
         setTimeout(() => {
           setIsLoading(false);
         }, 1000),
-      );
-    } else {
-      setIsLoading(false);
-    }
+      )
+      .catch(() => setIsLoading(false));
   });
 
   return (

@@ -42,12 +42,7 @@ function useAxiosInstance() {
           return Promise.reject(err);
         }
 
-        if (
-          data?.message === 'TokenExpired' &&
-          authorization.token &&
-          config.url !== REFRESH_URL &&
-          status === 401
-        ) {
+        if (config.url !== REFRESH_URL && status === 401) {
           return reIssueToken(axiosInstance)
             .then(({ accessToken }) => {
               console.log('RE-ISSUE JWT Token');
@@ -58,12 +53,16 @@ function useAxiosInstance() {
               });
             })
             .catch((error) => {
-              toast.error('로그인 정보가 만료되었습니다.');
+              toast.error('로그인이 필요합니다.');
               console.log('TokenExpired');
               resetAuthorization();
               setUser(null);
               return Promise.resolve(error);
             });
+        }
+
+        if (config.url === REFRESH_URL) {
+          return Promise.reject(err);
         }
 
         toast.error(`오류가 발생했습니다 (${data?.message})`);
