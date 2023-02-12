@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  sso_service_a:
+    image: sso-service
+    env_file: .env-a.development
+    networks:
+      - sso
+  sso_service_b:
+    image: sso-service
+    env_file: .env-b.development
+    networks:
+      - sso
   # server:
   #   build: .
   #   ports:
@@ -9,19 +19,22 @@ services:
   #     - db
   #   env_file:
   #     - .env.production
-  db:
-    image: mysql
-    restart: always
-    ports:
-      - 33006:3306
-    volumes:
-      - db_volume:/var/lib/mysql
-      - ./mysql/config:/etc/mysql/conf.d
-      - ./mysql/config/init.sql:/data/application/init.sql
-    command: --init-file /data/application/init.sql
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: nest_db
-      time_zone: UTC
-volumes:
-  db_volume:
+  # db:
+  #   image: mysql
+  #   restart: always
+  #   ports:
+  #     - 33006:3306
+  #   volumes:
+  #     - db_volume:/var/lib/mysql
+  #     - ./mysql/config:/etc/mysql/conf.d
+  #     - ./mysql/config/init.sql:/data/application/init.sql
+  #   command: --init-file /data/application/init.sql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: nest_db
+  #     time_zone: UTC
+# volumes:
+#   db_volume:
+networks:
+  sso:
+    external: true

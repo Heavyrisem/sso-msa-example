@@ -1,11 +1,19 @@
 FROM node:alpine
 
-WORKDIR /app
-COPY . .
-RUN rm -f .env
-RUN rm -f .env.production
+ARG NPM_TOKEN
 
+WORKDIR /app
+COPY ./package.json /app
+COPY ./yarn.lock /app
+COPY ./.npmrc /app
+
+RUN echo -e "\n//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc
+RUN cat .npmrc
 RUN yarn install
+RUN rm -f .npmrc
+
+COPY . .
+
 RUN yarn build
 
 CMD ["yarn", "start:prod"]

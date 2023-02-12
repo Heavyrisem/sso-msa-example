@@ -56,7 +56,7 @@ const useUser = () => {
       provider,
     });
     // redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
-    window.location.href = `http://localhost:3000/api/auth?${params}`;
+    window.location.href = `${window.location.origin}/api/auth?${params}`;
   }, []);
 
   const ssoLogin = useCallback(async () => {
