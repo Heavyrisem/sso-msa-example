@@ -56,12 +56,15 @@ export class AuthController {
   }
 
   @Get('/setRefresh')
-  setRefresh(
+  async setRefresh(
     @Res() res: Response,
     @Query('refreshToken') refreshToken?: string,
     @Query('redirect') redirect?: string,
   ) {
     if (!refreshToken || !redirect) throw new BadRequestException('Some params is empty');
+
+    const { value: isValid } = await this.authService.verifyToken(refreshToken);
+    if (!isValid) throw new BadRequestException('Invalid refresh token');
 
     res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
