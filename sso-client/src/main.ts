@@ -1,5 +1,6 @@
 import * as cookieParser from 'cookie-parser';
 
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { RpcExceptionFilter } from '~modules/common/rpc-exception.filter';
@@ -13,6 +14,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new HttpLoggerInterceptor());
   app.useGlobalFilters(new RpcExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.listen(process.env.PORT);
 }

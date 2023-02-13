@@ -1,5 +1,3 @@
-import { OAuthState, Shared, Token } from '@heavyrisem/sso-msa-example-proto';
-import { stringToProvider } from '@heavyrisem/sso-msa-example-proto/dist/shared';
 import { Response } from 'express';
 
 import {
@@ -14,6 +12,7 @@ import {
 
 import { createQueryParameter } from '~modules/utils/url.util';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
+import { MergedUser } from '~src/user/user.interface';
 
 import { REFRESH_TOKEN_KEY } from './auth.constants';
 import { AuthService } from './auth.service';
@@ -28,20 +27,20 @@ export class AuthController {
 
   @UseGuards(LoggedInGuard)
   @Get('/test')
-  async test(@GetUser() user: Shared.UserSSO) {
+  async test(@GetUser() user: MergedUser) {
     return user;
   }
 
   @UseGuards(RefreshGuard)
   @Get('/refresh')
-  async refresh(@Res() res: Response, @GetUser() user: Shared.UserSSO) {
-    this.logger.debug(`Refresh Token For User: ${user}`);
+  async refresh(@Res() res: Response, @GetUser() user: MergedUser) {
+    this.logger.debug(`Refresh Token For User: ${user?.name}`);
     const { accessToken, refreshToken } = await this.authService.generateToken(user);
 
     res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {
       httpOnly: true,
     });
-    res.send({ accessToken });
+    return res.send({ accessToken });
   }
 
   @Get('')
@@ -69,7 +68,7 @@ export class AuthController {
     res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
     });
-    res.redirect(redirect);
+    return res.redirect(redirect);
   }
 
   // @Get('/callback/:provider')

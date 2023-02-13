@@ -1,12 +1,13 @@
 import { useCallback } from 'react';
 
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LoginResponse, RegisterResponse } from 'types/API';
 
 import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
 import { BaseAtom } from '@recoil/atom.interface';
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
+import axiosInstance from '@utils/api/axiosInstance';
 import { getLoggedInUser } from '@utils/api/user';
 import createQueryParameter from '@utils/url.util';
 
@@ -26,7 +27,7 @@ export interface TwoFactorLoginForm {
 }
 
 const useUser = () => {
-  const axiosInstance = useAxiosInstance();
+  // const axiosInstance = useAxiosInstance();
   const setAuthorization = useSetRecoilState(authorizationState);
   const resetAuthorization = useResetRecoilState(authorizationState);
   const setUser = useSetRecoilState(userState);
@@ -46,7 +47,7 @@ const useUser = () => {
       console.log('Setting user', user);
       setUser(user);
     },
-    [axiosInstance, setUser],
+    [setUser],
   );
 
   const redirectSSO = useCallback((provider: 'google' | 'github' | 'kakao') => {
@@ -75,7 +76,7 @@ const useUser = () => {
     );
     setAuthorization({ token });
     fetchUser(token);
-  }, [axiosInstance, fetchUser, setAuthorization]);
+  }, [fetchUser, setAuthorization]);
 
   const login = useCallback(
     async ({ saveStorage, ...data }: BasicLoginForm & BaseAtom) => {
@@ -89,14 +90,14 @@ const useUser = () => {
         fetchUser(token);
       }
     },
-    [axiosInstance, fetchUser, setAuthorization],
+    [fetchUser, setAuthorization],
   );
 
   const logout = useCallback(() => {
     axiosInstance.get('/api/auth/logout');
     resetAuthorization();
     setUser(null);
-  }, [axiosInstance, resetAuthorization, setUser]);
+  }, [resetAuthorization, setUser]);
 
   const twoFactorLogin = useCallback(
     async (data: TwoFactorLoginForm) => {
@@ -110,7 +111,7 @@ const useUser = () => {
         fetchUser(token);
       }
     },
-    [axiosInstance, fetchUser, setAuthorization],
+    [fetchUser, setAuthorization],
   );
 
   const register = useCallback(
@@ -125,7 +126,7 @@ const useUser = () => {
         fetchUser(token);
       }
     },
-    [axiosInstance, fetchUser, setAuthorization],
+    [fetchUser, setAuthorization],
   );
 
   return {

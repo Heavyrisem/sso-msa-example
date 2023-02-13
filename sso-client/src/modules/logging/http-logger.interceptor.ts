@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import {
+  BadRequestException,
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  Logger,
+  NestInterceptor,
+} from '@nestjs/common';
 
 @Injectable()
 export class HttpLoggerInterceptor implements NestInterceptor {
@@ -27,8 +34,13 @@ export class HttpLoggerInterceptor implements NestInterceptor {
       }),
       catchError((err) => {
         isError = true;
+        let message: string = err.message;
+        if (err?.response?.message) {
+          message = (err.response.message as string[])?.join(',') ?? message;
+          err = new BadRequestException(message);
+        }
         this.logger.error(
-          `${method} ${path} ==> ${err?.statusCode || err?.status || err?.code} ${err.message}`,
+          `${method} ${path} ==> ${err?.statusCode || err?.status || err?.code} ${message}`,
         );
         return throwError(() => err);
       }),

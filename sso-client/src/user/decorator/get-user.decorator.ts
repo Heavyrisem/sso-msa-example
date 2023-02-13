@@ -1,8 +1,10 @@
-import { Shared } from '@heavyrisem/sso-msa-example-proto';
-
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+import { REQUEST_USER } from '~src/auth/auth.constants';
+
+import { MergedUser } from '../user.interface';
 
 export const GetUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const request = context.switchToHttp().getRequest();
-  return request.user as Shared.UserSSO;
+  return request[REQUEST_USER] as MergedUser | undefined;
 });

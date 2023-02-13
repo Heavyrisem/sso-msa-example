@@ -44,13 +44,11 @@ function useAxiosInstance() {
 
         if (config.url !== REFRESH_URL && status === 401) {
           return reIssueToken(axiosInstance)
-            .then(({ accessToken }) => {
+            .then(async ({ accessToken }) => {
               console.log('RE-ISSUE JWT Token');
               setAuthorization({ token: accessToken });
-              return axiosInstance.request({
-                ...config,
-                headers: { authorization: `Bearer ${accessToken}` },
-              });
+              config.headers.authorization = `Bearer ${accessToken}`;
+              return axiosInstance.request(config);
             })
             .catch((error) => {
               toast.error('로그인이 필요합니다.');

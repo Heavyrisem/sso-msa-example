@@ -4,6 +4,7 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
 import { UserService } from '~src/user/user.service';
 
+import { REQUEST_USER } from '../auth.constants';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -22,8 +23,19 @@ export class JwtMiddleware implements NestMiddleware {
         const payload = this.authService.getPayload(accessToken || refreshToken);
 
         if (typeof payload === 'object' && payload['id']) {
-          const user = await this.userService.findUserById(payload.id);
-          req['user'] = user;
+          const ssoUser = await this.userService.findSSOUserById(payload.id);
+          let serviceUser = await this.userService.findUserById(payload.id);
+          if (!serviceUser) {
+            serviceUser = await this.userService.createUser({
+              providerId: payload.id,
+              displayName: payload.name,
+            });
+            this.logger.log(
+              `Created service user ${serviceUser.displayName}, ${serviceUser.providerId}`,
+            );
+          }
+
+          req[REQUEST_USER] = this.userService.mergeUserData(ssoUser, serviceUser);
         }
       }
     } catch (err) {
