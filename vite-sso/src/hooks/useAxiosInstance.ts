@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import axios from 'axios';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
 import { reIssueToken } from '@utils/api/auth';
+import axiosInstance from '@utils/api/axiosInstance';
 import { REFRESH_URL } from '@utils/api/constants';
 import { getLoggedInUser } from '@utils/api/user';
 
@@ -14,15 +14,6 @@ function useAxiosInstance() {
   const [authorization, setAuthorization] = useRecoilState(authorizationState);
   const resetAuthorization = useResetRecoilState(authorizationState);
   const setUser = useSetRecoilState(userState);
-  const axiosInstance = axios.create({
-    withCredentials: true,
-  });
-
-  useEffect(() => {
-    if (authorization.token) {
-      axiosInstance.defaults.headers.authorization = `Bearer ${authorization.token}`;
-    }
-  }, [authorization.token, axiosInstance.defaults.headers]);
 
   useEffect(() => {
     axiosInstance.interceptors.response.use(
@@ -52,7 +43,6 @@ function useAxiosInstance() {
             })
             .catch((error) => {
               toast.error('로그인이 필요합니다.');
-              console.log('TokenExpired');
               resetAuthorization();
               setUser(null);
               return Promise.resolve(error);
@@ -68,18 +58,9 @@ function useAxiosInstance() {
       },
     );
     return () => {
-      // axiosInstance.interceptors.request.clear();
       axiosInstance.interceptors.response.clear();
     };
-  }, [
-    authorization,
-    authorization.token,
-    axiosInstance,
-    axiosInstance.interceptors.response,
-    resetAuthorization,
-    setAuthorization,
-    setUser,
-  ]);
+  }, [authorization, authorization.token, resetAuthorization, setAuthorization, setUser]);
 
   return axiosInstance;
 }

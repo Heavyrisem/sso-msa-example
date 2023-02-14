@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Loading from '@components/Loading';
 import useEffectOnce from '@hooks/useEffectOnce';
 import useUser from '@hooks/useUser';
 
@@ -14,7 +15,11 @@ const Auth: React.FC = () => {
     });
   });
 
-  return <div>Auth</div>;
+  return (
+    <div>
+      <Loading />
+    </div>
+  );
 };
 
 export default Auth;

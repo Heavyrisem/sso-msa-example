@@ -14,9 +14,9 @@ const authorizationState = atom<Authorization>({
   key: 'authorizationState',
   default: { token: null },
   effects: [
-    ({ node, onSet }) => {
+    ({ onSet }) => {
       onSet(({ token }) => {
-        console.log('recoil token set', token);
+        console.log('recoil set token', token);
         axiosInstance.defaults.headers.common.Authorization = token ? `Bearer ${token}` : undefined;
       });
     },

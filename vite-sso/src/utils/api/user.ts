@@ -4,7 +4,6 @@ import { UserMeResponse } from 'types/API';
 import { ServiceUser } from '@recoil/atoms/user';
 
 export const getLoggedInUser = (axiosInstance: AxiosInstance, options?: AxiosRequestConfig) => {
-  console.log(axiosInstance.get);
   return axiosInstance.get<UserMeResponse>('/api/user/me', options).then((res) => res.data);
 };
 
