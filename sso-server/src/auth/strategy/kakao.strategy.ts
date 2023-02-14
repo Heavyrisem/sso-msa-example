@@ -1,6 +1,7 @@
 import { Provider } from '@heavyrisem/sso-msa-example-proto';
 
 import { HttpException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 
 import { Strategy } from 'passport-kakao';
@@ -14,11 +15,11 @@ export class KakaoStrategy
 {
   params: Record<string, any>;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     const params = {
       authorizationURL: 'https://kauth.kakao.com/oauth/authorize',
-      clientID: process.env.KAKAO_OAUTH_CLIENT_ID,
-      clientSecret: process.env.KAKAO_OAUTH_CLIENT_SECRET,
+      clientID: configService.getOrThrow('KAKAO_OAUTH_CLIENT_ID'),
+      clientSecret: configService.getOrThrow('KAKAO_OAUTH_CLIENT_SECRET'),
     };
 
     super(params);

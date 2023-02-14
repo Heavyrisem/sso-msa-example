@@ -9,6 +9,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { createQueryParameter } from '~modules/utils/url.util';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
@@ -23,7 +24,10 @@ import { RefreshGuard } from './guards/refresh.guard';
 export class AuthController {
   logger = new Logger(AuthController.name);
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {}
 
   @UseGuards(LoggedInGuard)
   @Get('/test')
@@ -51,7 +55,7 @@ export class AuthController {
   ) {
     if (!redirect || !provider) throw new BadRequestException('Some params is empty');
     const params = createQueryParameter({ redirect });
-    return res.redirect(`${process.env.SSO_URL}/${provider}?${params}`);
+    return res.redirect(`${this.configService.getOrThrow('SSO_URL')}/${provider}?${params}`);
   }
 
   @Get('/setRefresh')

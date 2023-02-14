@@ -2,6 +2,7 @@ import { Provider } from '@heavyrisem/sso-msa-example-proto';
 import { Strategy, Profile } from 'passport-google-oauth20';
 
 import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 
 import { CustomStrategy, GoogleUser } from '../auth.interface';
@@ -13,11 +14,11 @@ export class GoogleStrategy
 {
   params: Record<string, any>;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     const params = {
       authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
-      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+      clientID: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_ID'),
+      clientSecret: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_SECRET'),
       scope: ['email', 'profile'],
     };
 
