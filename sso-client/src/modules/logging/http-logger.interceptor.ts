@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class HttpLoggerInterceptor implements NestInterceptor {
-  logger = new Logger(HttpLoggerInterceptor.name);
+  logger = new Logger('HttpLogger');
 
   intercept(
     context: ExecutionContext,
@@ -24,7 +24,9 @@ export class HttpLoggerInterceptor implements NestInterceptor {
     const path = request.path;
     const method = request.method;
 
-    this.logger.log(`${method} ${path} <==`);
+    // Nest의 Request Lifecyle 에 따라 Middleware 레벨에서 Exception이 발생하는 경우 Interceptor 까지 요청이 도달하지 않음
+    // Middleware에서 Exception이 발생하더라도 요청 로그를 남기기 위해 logger.middleware.ts 에서 요청 로그는 따로 남김
+    // this.logger.log(`${method} ${path} <==`);
 
     let isError = false;
     const nextObserver = next.handle().pipe(
