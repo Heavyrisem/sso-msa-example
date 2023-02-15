@@ -6,11 +6,15 @@ services:
     env_file: .env-a.production
     networks:
       - sso
+      - nginx
   sso_service_b:
     image: sso-service
     env_file: .env-b.production
     networks:
       - sso
+      - nginx
 networks:
   sso:
+    external: true
+  nginx:
     external: true

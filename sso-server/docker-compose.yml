@@ -10,6 +10,27 @@ services:
       - .env.production
     networks:
       - sso
+      - nginx
+  sso_db:
+    container_name: sso-db
+    image: mysql
+    restart: always
+    volumes:
+      - sso_db_volume:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/config/init.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sso
+      time_zone: UTC
+    networks:
+      - sso
+
+volumes:
+  sso_db_volume:
 networks:
   sso:
+    external: true
+  nginx:
     external: true
