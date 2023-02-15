@@ -33,6 +33,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.20.13",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.2.0",
     "@types/axios": "^0.14.0",
     "@types/react": "^18.0.15",
@@ -41,7 +42,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
-    "@vitejs/plugin-react": "^2.0.0",
+    "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.21.0",
     "eslint-config-airbnb": "^19.0.4",
