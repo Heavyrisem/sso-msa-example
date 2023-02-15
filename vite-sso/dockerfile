@@ -14,6 +14,8 @@ RUN cat .npmrc
 RUN yarn install
 RUN rm -f .npmrc
 
+COPY . .
+
 RUN yarn build
 
 
