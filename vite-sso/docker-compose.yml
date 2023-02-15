@@ -1,6 +1,6 @@
 version: '3'
 services:
-  sso_web:
+  web:
     image: sso-web
     networks:
       - nginx
