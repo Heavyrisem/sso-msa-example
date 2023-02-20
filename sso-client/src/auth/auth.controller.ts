@@ -39,7 +39,7 @@ export class AuthController {
   @Get('/refresh')
   async refresh(@Res() res: Response, @GetUser() user: MergedUser) {
     this.logger.debug(`Refresh Token For User: ${user?.name}`);
-    const { accessToken, refreshToken } = await this.authService.generateToken(user);
+    const { accessToken, refreshToken } = await this.authService.generateToken({ profile: user });
 
     res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {
       httpOnly: true,

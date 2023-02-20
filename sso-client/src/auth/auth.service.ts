@@ -28,18 +28,16 @@ export class AuthService implements OnModuleInit {
     this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
-  @HandleRpcException
-  generateToken(profile: Shared.OAuthProfile): Promise<Token> {
+  @HandleRpcException()
+  generateToken({ profile }: { profile: Shared.OAuthProfile }): Promise<Token> {
     return getResultFromObservable(this.authService.generateToken(profile));
   }
 
-  @HandleRpcException
   verifyToken(token: string): Promise<BoolValue> {
     throw new Error('Runtime Error');
-    return getResultFromObservable(this.authService.verifyToken({ value: token }));
+    // return getResultFromObservable(this.authService.verifyToken({ value: token }));
   }
 
-  @HandleRpcException
   getOAuthProfile(oauthRequest: OAuthRequest): Promise<Shared.OAuthProfile> {
     return getResultFromObservable(this.authService.getOAuthProfile(oauthRequest));
   }
