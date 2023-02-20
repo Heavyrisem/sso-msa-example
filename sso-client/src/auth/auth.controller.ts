@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { createQueryParameter } from '~modules/utils/url.util';
+import { createQueryParameter } from '~modules/utils/url.utils';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
 import { MergedUser } from '~src/user/user.interface';
 

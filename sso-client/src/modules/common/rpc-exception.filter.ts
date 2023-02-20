@@ -9,8 +9,9 @@ import {
   Logger,
   HttpException,
 } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 
-@Catch(Error)
+@Catch(RpcException)
 export class RpcExceptionFilter implements ExceptionFilter {
   logger = new Logger(RpcExceptionFilter.name);
 
