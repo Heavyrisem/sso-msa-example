@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { useRecoilValue } from 'recoil';
-
 import RootLayout from '@components/Layouts/RootLayout';
 import Loading from '@components/Loading';
 import useEffectOnce from '@hooks/useEffectOnce';
 import useUser from '@hooks/useUser';
-import jwtSelector from '@recoil/selectors/jwt';
 
 import Router from './router';
 
@@ -15,20 +12,17 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const jwt = useRecoilValue(jwtSelector);
 
   const { fetchUser } = useUser();
 
   useEffectOnce(() => {
-    if (jwt) {
-      fetchUser()
-        .then(() =>
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 1000),
-        )
-        .catch(() => setIsLoading(false));
-    } else setIsLoading(false);
+    fetchUser()
+      .then(() =>
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000),
+      )
+      .catch(() => setIsLoading(false));
   });
 
   return (
