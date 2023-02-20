@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 import { BaseAtom } from '@recoil/atom.interface';
 import { localStorageEffect } from '@recoil/utils';
-import axiosInstance from '@utils/api/axiosInstance';
+import { setAuthorizationHeader } from '@utils/api/axiosInstance';
 
 const AUTHORIZATION_KEY = 'authorization';
 
@@ -14,13 +14,12 @@ const authorizationState = atom<Authorization>({
   key: 'authorizationState',
   default: { token: null },
   effects: [
+    localStorageEffect<Authorization>(AUTHORIZATION_KEY, ({ token }) =>
+      setAuthorizationHeader(token),
+    ),
     ({ onSet }) => {
-      onSet(({ token }) => {
-        console.log('recoil set token', token);
-        axiosInstance.defaults.headers.common.Authorization = token ? `Bearer ${token}` : undefined;
-      });
+      onSet(({ token }) => setAuthorizationHeader(token));
     },
-    localStorageEffect<Authorization>(AUTHORIZATION_KEY),
   ],
 });
 

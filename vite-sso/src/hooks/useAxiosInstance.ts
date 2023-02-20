@@ -10,6 +10,7 @@ import axiosInstance from '@utils/api/axiosInstance';
 import { REFRESH_URL } from '@utils/api/constants';
 import { getLoggedInUser } from '@utils/api/user';
 
+// authorization header는 utils/api/axiosInstance에서 세팅함
 function useAxiosInstance() {
   const [authorization, setAuthorization] = useRecoilState(authorizationState);
   const resetAuthorization = useResetRecoilState(authorizationState);

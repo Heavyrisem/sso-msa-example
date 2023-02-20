@@ -59,6 +59,7 @@ const useUser = () => {
     // 사실 그냥 위에서 바로 SSO 로 보내도 되는데 프론트에 SSO URL 을 저장하기 싫어서 Client Server 한번 거치게 해둠
   }, []);
 
+  // sso_flowchart의 2번 구조에서는 쓰이지 않음 (feautre/use_redirect 브랜치)
   const ssoLogin = useCallback(async () => {
     const query = new URLSearchParams(window.location.search);
     const rawState = query.get('state');
@@ -77,62 +78,14 @@ const useUser = () => {
     fetchUser(token);
   }, [axiosInstance, fetchUser, setAuthorization]);
 
-  const login = useCallback(
-    async ({ saveStorage, ...data }: BasicLoginForm & BaseAtom) => {
-      const response = await axiosInstance
-        .post<LoginResponse>('/api/auth/login', data)
-        .then((res) => res.data);
-
-      if (response) {
-        const { accessToken: token } = response;
-        setAuthorization({ token, saveStorage });
-        fetchUser(token);
-      }
-    },
-    [axiosInstance, fetchUser, setAuthorization],
-  );
-
   const logout = useCallback(() => {
     axiosInstance.get('/api/auth/logout');
     resetAuthorization();
     setUser(null);
   }, [axiosInstance, resetAuthorization, setUser]);
 
-  const twoFactorLogin = useCallback(
-    async (data: TwoFactorLoginForm) => {
-      const response = await axiosInstance
-        .post<LoginResponse>('/api/auth/login/2fa', data)
-        .then((res) => res.data);
-
-      if (response) {
-        const { accessToken: token } = response;
-        setAuthorization({ token });
-        fetchUser(token);
-      }
-    },
-    [axiosInstance, fetchUser, setAuthorization],
-  );
-
-  const register = useCallback(
-    async (data: BasicRegisterForm) => {
-      const response = await axiosInstance
-        .post<RegisterResponse>('/api/auth/register', data)
-        .then((res) => res.data);
-
-      if (response) {
-        const { accessToken: token } = response;
-        setAuthorization({ token });
-        fetchUser(token);
-      }
-    },
-    [axiosInstance, fetchUser, setAuthorization],
-  );
-
   return {
-    login,
     logout,
-    twoFactorLogin,
-    register,
     fetchUser,
     redirectSSO,
     ssoLogin,

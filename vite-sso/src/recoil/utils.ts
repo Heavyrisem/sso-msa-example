@@ -4,11 +4,13 @@ import { BaseAtom } from './atom.interface';
 
 // eslint-disable-next-line import/prefer-default-export
 export const localStorageEffect =
-  <T extends BaseAtom>(key: string): AtomEffect<T> =>
+  <T extends BaseAtom>(key: string, onInit?: (value: T) => void): AtomEffect<T> =>
   ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
     if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
+      const parsedValue = JSON.parse(savedValue) as T;
+      onInit?.(parsedValue);
+      setSelf(parsedValue);
     }
 
     onSet((newValue, _, isReset) => {

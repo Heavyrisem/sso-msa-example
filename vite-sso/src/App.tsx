@@ -15,17 +15,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const jwt = useRecoilValue(jwtSelector);
 
   const { fetchUser } = useUser();
 
   useEffectOnce(() => {
-    fetchUser()
-      .then(() =>
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000),
-      )
-      .catch(() => setIsLoading(false));
+    if (jwt) {
+      fetchUser()
+        .then(() =>
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000),
+        )
+        .catch(() => setIsLoading(false));
+    } else setIsLoading(false);
   });
 
   return (
