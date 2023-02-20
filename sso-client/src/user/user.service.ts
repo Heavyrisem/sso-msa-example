@@ -18,6 +18,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { getResultFromObservable } from '~modules/utils/observable.utils';
+import { HandleRpcException, RpcExceptionHandler } from '~modules/utils/rpc.utils';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -25,6 +26,7 @@ import { User } from './user.entity';
 import { MergedUser } from './user.interface';
 
 @Injectable()
+@RpcExceptionHandler()
 export class UserService implements OnModuleInit {
   private userService: UserServiceClient;
 
@@ -53,6 +55,7 @@ export class UserService implements OnModuleInit {
     };
   }
 
+  @HandleRpcException()
   findSSOUserById(id: Shared.UserSSO['providerId']): Promise<Shared.UserSSO | null> {
     return getResultFromObservable(
       this.userService.findUserById({ value: id.toString() }).pipe(map(this.transformUser)),

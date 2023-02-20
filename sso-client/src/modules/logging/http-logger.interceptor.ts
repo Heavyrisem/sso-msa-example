@@ -38,7 +38,10 @@ export class HttpLoggerInterceptor implements NestInterceptor {
         isError = true;
         let message: string = err.message;
         if (err?.response?.message) {
-          message = (err.response.message as string[])?.join(',') ?? message;
+          const errorResponseMessage = err?.response?.message;
+          message = Array.isArray(errorResponseMessage as string[])
+            ? errorResponseMessage.join(',')
+            : message;
           err = new BadRequestException(message);
         }
         this.logger.error(
