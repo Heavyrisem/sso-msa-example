@@ -7,7 +7,6 @@ import tw from 'twin.macro';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import DefaultLayout from '@components/Layouts/DefaultLayout';
-import { css } from '@emotion/react';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import useUser from '@hooks/useUser';
 import authorizationState from '@recoil/atoms/authorization';
