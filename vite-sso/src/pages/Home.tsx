@@ -5,24 +5,25 @@ import { useRecoilValue } from 'recoil';
 import tw from 'twin.macro';
 
 import Button from '@components/Button';
+import Input from '@components/Input';
 import DefaultLayout from '@components/Layouts/DefaultLayout';
-import { css } from '@emotion/react';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import useUser from '@hooks/useUser';
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
 import jwtSelector from '@recoil/selectors/jwt';
+import { updateUserInfo } from '@utils/api/user';
 
 const Home: React.FC = () => {
   const axiosInstance = useAxiosInstance();
   const authorization = useRecoilValue(authorizationState);
   const user = useRecoilValue(userState);
   const jwt = useRecoilValue(jwtSelector);
-  const { logout } = useUser();
+  const { fetchUser, logout } = useUser();
 
   const [message, setMessage] = useState<string>();
-
   const [expireIn, setExpireIn] = useState<number>(-1);
+  const [userDisplayName, setUserDisplayName] = useState<string | undefined>(user?.displayName);
 
   const handleTestClick = useCallback(async () => {
     setMessage(undefined);
@@ -32,6 +33,14 @@ const Home: React.FC = () => {
       .catch((err) => JSON.stringify((err as AxiosError).response?.data));
     setMessage(response);
   }, [axiosInstance]);
+
+  const handleUpdateUserInfoClick = useCallback(async () => {
+    await updateUserInfo(axiosInstance, {
+      providerId: user?.providerId,
+      displayName: userDisplayName,
+    });
+    fetchUser();
+  }, [axiosInstance, fetchUser, user?.providerId, userDisplayName]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,6 +62,15 @@ const Home: React.FC = () => {
           AuthenticationTest
         </Button>
         {message && <div>{message}</div>}
+        <Button css={[tw`w-52`]} onClick={handleUpdateUserInfoClick}>
+          UpdateUserInfo
+        </Button>
+        <Input
+          css={[tw`w-52`]}
+          type="text"
+          onChange={(e) => setUserDisplayName(e.target.value)}
+          value={userDisplayName}
+        />
         <Button css={[tw`w-52`]} onClick={logout}>
           Logout
         </Button>

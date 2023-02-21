@@ -6,7 +6,6 @@ import { Roles } from 'types/role';
 import Home from '@pages/Home';
 import Auth from '@pages/Login/Auth';
 import Login from '@pages/Login/index';
-import Register from '@pages/Register/index';
 import Test from '@pages/Test';
 
 import PrivateRouter from './PrivateRouter';
@@ -35,7 +34,6 @@ const Router: React.FC = () => {
           index
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

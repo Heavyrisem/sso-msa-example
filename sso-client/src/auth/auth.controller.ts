@@ -1,5 +1,3 @@
-import { OAuthState, Shared } from '@heavyrisem/sso-msa-example-proto';
-import { stringToProvider } from '@heavyrisem/sso-msa-example-proto/dist/shared';
 import { Response } from 'express';
 
 import {
@@ -11,9 +9,11 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-import { createQueryParameter } from '~modules/utils/url.util';
+import { createQueryParameter } from '~modules/utils/url.utils';
 import { GetUser } from '~src/user/decorator/get-user.decorator';
+import { MergedUser } from '~src/user/user.interface';
 
 import { REFRESH_TOKEN_KEY } from './auth.constants';
 import { AuthService } from './auth.service';
@@ -24,65 +24,84 @@ import { RefreshGuard } from './guards/refresh.guard';
 export class AuthController {
   logger = new Logger(AuthController.name);
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {}
 
   @UseGuards(LoggedInGuard)
   @Get('/test')
-  async test(@GetUser() user: Shared.UserSSO) {
+  async test(@GetUser() user: MergedUser) {
     return user;
   }
 
   @UseGuards(RefreshGuard)
   @Get('/refresh')
-  async refresh(@Res() res: Response, @GetUser() user: Shared.UserSSO) {
-    this.logger.debug(`Refresh Token For User: ${user}`);
-    const { accessToken, refreshToken } = await this.authService.generateToken(user);
+  async refresh(@Res() res: Response, @GetUser() user: MergedUser) {
+    this.logger.debug(`Refresh Token For User: ${user?.name}`);
+    const { accessToken, refreshToken } = await this.authService.generateToken({ profile: user });
 
     res.cookie(REFRESH_TOKEN_KEY, `${refreshToken}`, {
       httpOnly: true,
     });
-    res.send({ accessToken });
+    return res.send({ accessToken });
   }
 
   @Get('')
   redirectToSSO(
     @Res() res: Response,
     @Query('redirect') redirect?: string,
-    @Query('callback') callback?: string,
     @Query('provider') provider?: string,
   ) {
-    if (!redirect || !callback || !provider) throw new BadRequestException('Some params is empty');
-    const params = createQueryParameter({ redirect, callback });
-    return res.redirect(`${process.env.SSO_URL}/${provider}?${params}`);
+    if (!redirect || !provider) throw new BadRequestException('Some params is empty');
+    const params = createQueryParameter({ redirect });
+    return res.redirect(`${this.configService.getOrThrow('SSO_URL')}/${provider}?${params}`);
   }
 
-  @Get('/callback/:provider')
-  async oauthCallback(
+  @Get('/setRefresh')
+  async setRefresh(
     @Res() res: Response,
-    @Query('code') code?: string,
-    @Query('state') state?: string,
+    @Query('refreshToken') refreshToken?: string,
+    @Query('redirect') redirect?: string,
   ) {
-    if (!code) throw new BadRequestException('Code is empty');
-    if (!state) throw new BadRequestException('State is empty');
+    if (!refreshToken || !redirect) throw new BadRequestException('Some params is empty');
 
-    const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
-    console.log(provider);
-    const profile = await this.authService.getOAuthProfile({
-      code,
-      redirect,
-      callback,
-      provider,
-    });
-    // Cookie, Session 중 원하는 방식 선택
-    console.log(profile);
-    const token = await this.authService.generateToken(profile);
+    const { value: isValid } = await this.authService.verifyToken(refreshToken);
+    if (!isValid) throw new BadRequestException('Invalid refresh token');
 
-    res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {
+    res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
     });
     return res.redirect(redirect);
-    // localhost:3000/auth?redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
   }
+
+  // @Get('/callback/:provider')
+  // async oauthCallback(
+  //   @Res() res: Response,
+  //   @Query('code') code?: string,
+  //   @Query('state') state?: string,
+  // ) {
+  //   if (!code) throw new BadRequestException('Code is empty');
+  //   if (!state) throw new BadRequestException('State is empty');
+
+  //   const { redirect, callback, provider } = JSON.parse(state ?? '{}') as OAuthState;
+  //   console.log(provider);
+  //   const profile = await this.authService.getOAuthProfile({
+  //     code,
+  //     redirect,
+  //     callback,
+  //     provider,
+  //   });
+  //   // Cookie, Session 중 원하는 방식 선택
+  //   console.log(profile);
+  //   const token = await this.authService.generateToken(profile);
+
+  //   res.cookie(REFRESH_TOKEN_KEY, `${token.refreshToken}`, {
+  //     httpOnly: true,
+  //   });
+  //   return res.redirect(redirect);
+  //   // localhost:3000/auth?redirect=http://localhost:3000/auth/test&callback=http://localhost:3000/auth/callback/google&provider=google
+  // }
 
   @Get('/logout')
   async logout(@Res() res: Response) {

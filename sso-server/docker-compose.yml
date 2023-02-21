@@ -1,36 +1,22 @@
 version: '3'
 
 services:
-  nginx:
-    image: nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - sso_server
-    networks:
-      - sso
-  sso_server:
+  server:
     image: sso-server
     # ports:
     #   - 3001:3001
     #   - 3002:3002
-    depends_on:
-      - db
     env_file:
-      - .env.development
+      - .env.production
     networks:
       - sso
-
+      - nginx
   db:
-    container_name: sso-msa-db
+    container_name: sso-db
     image: mysql
     restart: always
-    ports:
-      - 3306:3306
     volumes:
-      - db_volume:/var/lib/mysql
+      - sso_db_volume:/var/lib/mysql
       - ./mysql/config:/etc/mysql/conf.d
       - ./mysql/config/init.sql:/data/application/init.sql
     command: --init-file /data/application/init.sql
@@ -40,17 +26,11 @@ services:
       time_zone: UTC
     networks:
       - sso
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8090:80
-    environment:
-      - PMA_ARBITRARY=1
-    networks:
-      - sso
+
 volumes:
-  db_volume:
+  sso_db_volume:
 networks:
   sso:
+    external: true
+  nginx:
     external: true

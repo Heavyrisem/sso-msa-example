@@ -81,11 +81,12 @@ export class AuthService {
     delete payload.iat;
 
     return {
-      accessToken: this.jwtService.sign(payload, { expiresIn: '5m' }),
+      accessToken: this.jwtService.sign(payload, { expiresIn: '30s' }),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '1h' }),
     };
   }
 
+  // TODO: Redis에서 강제로 만료시킬 토큰 목록을 불러와서 체크
   verifyToken(token: StringValue): BoolValue {
     try {
       this.jwtService.verify(token.value);

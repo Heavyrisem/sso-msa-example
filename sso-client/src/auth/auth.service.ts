@@ -14,10 +14,12 @@ import { BadRequestException, Inject, Injectable, OnModuleInit } from '@nestjs/c
 import { ClientGrpc } from '@nestjs/microservices';
 
 import { getResultFromObservable } from '~modules/utils/observable.utils';
+import { HandleRpcException, RpcExceptionHandler } from '~modules/utils/rpc.utils';
 
 import { REFRESH_TOKEN_KEY } from './auth.constants';
 
 @Injectable()
+@RpcExceptionHandler()
 export class AuthService implements OnModuleInit {
   private authService: AuthServiceClient;
 
@@ -27,14 +29,17 @@ export class AuthService implements OnModuleInit {
     this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
-  generateToken(profile: Shared.OAuthProfile): Promise<Token> {
+  @HandleRpcException()
+  generateToken({ profile }: { profile: Shared.OAuthProfile }): Promise<Token> {
     return getResultFromObservable(this.authService.generateToken(profile));
   }
 
+  @HandleRpcException()
   verifyToken(token: string): Promise<BoolValue> {
     return getResultFromObservable(this.authService.verifyToken({ value: token }));
   }
 
+  @HandleRpcException()
   getOAuthProfile(oauthRequest: OAuthRequest): Promise<Shared.OAuthProfile> {
     return getResultFromObservable(this.authService.getOAuthProfile(oauthRequest));
   }
@@ -46,6 +51,7 @@ export class AuthService implements OnModuleInit {
     return JSON.parse(res) as TokenPayload;
   }
 
+  @HandleRpcException()
   getTokenFromRequest(req: Request): Partial<Token> {
     const accessToken = req.headers['authorization']?.split(' ')?.[1];
 

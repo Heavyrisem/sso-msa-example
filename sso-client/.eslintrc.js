@@ -47,6 +47,7 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    '@typescript-eslint/ban-types': 'off',
   },
   settings: {
     'import/resolver': {

@@ -2,6 +2,7 @@ import { Provider } from '@heavyrisem/sso-msa-example-proto';
 import { Strategy } from 'passport-github';
 
 import { HttpException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 
 import { CustomStrategy, GithubUser } from '../auth.interface';
@@ -22,11 +23,11 @@ export class GithubStrategy
 {
   params: Record<string, any>;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     const params = {
       authorizationURL: 'https://github.com/login/oauth/authorize',
-      clientID: process.env.GITHUB_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET,
+      clientID: configService.getOrThrow('GITHUB_OAUTH_CLIENT_ID'),
+      clientSecret: configService.getOrThrow('GITHUB_OAUTH_CLIENT_SECRET'),
       scope: ['read:user', 'user:email'],
     };
 

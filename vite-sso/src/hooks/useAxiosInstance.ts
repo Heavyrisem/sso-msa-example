@@ -1,28 +1,20 @@
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import axios from 'axios';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import authorizationState from '@recoil/atoms/authorization';
 import userState from '@recoil/atoms/user';
 import { reIssueToken } from '@utils/api/auth';
+import axiosInstance from '@utils/api/axiosInstance';
 import { REFRESH_URL } from '@utils/api/constants';
 import { getLoggedInUser } from '@utils/api/user';
 
+// authorization header는 utils/api/axiosInstance에서 세팅함
 function useAxiosInstance() {
   const [authorization, setAuthorization] = useRecoilState(authorizationState);
   const resetAuthorization = useResetRecoilState(authorizationState);
   const setUser = useSetRecoilState(userState);
-  const axiosInstance = axios.create({
-    withCredentials: true,
-  });
-
-  useEffect(() => {
-    if (authorization.token) {
-      axiosInstance.defaults.headers.authorization = `Bearer ${authorization.token}`;
-    }
-  }, [authorization.token, axiosInstance.defaults.headers]);
 
   useEffect(() => {
     axiosInstance.interceptors.response.use(
@@ -42,28 +34,24 @@ function useAxiosInstance() {
           return Promise.reject(err);
         }
 
-        if (
-          data?.message === 'TokenExpired' &&
-          authorization.token &&
-          config.url !== REFRESH_URL &&
-          status === 401
-        ) {
+        if (config.url !== REFRESH_URL && status === 401) {
           return reIssueToken(axiosInstance)
-            .then(({ accessToken }) => {
+            .then(async ({ accessToken }) => {
               console.log('RE-ISSUE JWT Token');
               setAuthorization({ token: accessToken });
-              return axiosInstance.request({
-                ...config,
-                headers: { authorization: `Bearer ${accessToken}` },
-              });
+              config.headers.authorization = `Bearer ${accessToken}`;
+              return axiosInstance.request(config);
             })
             .catch((error) => {
-              toast.error('로그인 정보가 만료되었습니다.');
-              console.log('TokenExpired');
+              toast.error('로그인이 필요합니다.');
               resetAuthorization();
               setUser(null);
               return Promise.resolve(error);
             });
+        }
+
+        if (config.url === REFRESH_URL) {
+          return Promise.reject(err);
         }
 
         toast.error(`오류가 발생했습니다 (${data?.message})`);
@@ -71,18 +59,9 @@ function useAxiosInstance() {
       },
     );
     return () => {
-      // axiosInstance.interceptors.request.clear();
       axiosInstance.interceptors.response.clear();
     };
-  }, [
-    authorization,
-    authorization.token,
-    axiosInstance,
-    axiosInstance.interceptors.response,
-    resetAuthorization,
-    setAuthorization,
-    setUser,
-  ]);
+  }, [authorization, authorization.token, resetAuthorization, setAuthorization, setUser]);
 
   return axiosInstance;
 }

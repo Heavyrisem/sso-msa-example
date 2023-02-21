@@ -9,8 +9,9 @@ import {
   Logger,
   HttpException,
 } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 
-@Catch(Error)
+@Catch(RpcException)
 export class RpcExceptionFilter implements ExceptionFilter {
   logger = new Logger(RpcExceptionFilter.name);
 
@@ -59,7 +60,8 @@ export class RpcExceptionFilter implements ExceptionFilter {
         HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    this.logger.verbose(`${method} ${path} ==> ${status} ${exception}\n${exception.stack}`);
+    this.logger.error(`${method} ${path} ==> ${status} ${exception.message}`);
+    this.logger.verbose(`${exception}\n${exception.stack}`);
 
     return response.status(status).json({
       statusCode: status,
